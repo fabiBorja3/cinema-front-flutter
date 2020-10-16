@@ -4,13 +4,15 @@ import 'package:cinema/src/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class UserProvider {
-  final String _url = 'http://192.168.1.6:8088/cinema';
+  //final String _url = 'http://192.168.1.6:8088/cinema';
+  final String _url = 'http://cinema7.herokuapp.com/cinema';
 
   Future<bool> loginUser(UserModel user) async {
     final url = '$_url/token';
 
     //final response = await http.post(url, body: userModelToJson(user));
-    final response = await http.post('$url/?username=${user.username}&password=${user.password}');
+    final response = await http
+        .post('$url/?username=${user.username}&password=${user.password}');
 
     final decodeData = json.decode(response.body);
     print(decodeData);
@@ -18,3 +20,4 @@ class UserProvider {
     return true;
   }
 }
+//http://cinema7.herokuapp.com/cinema/
