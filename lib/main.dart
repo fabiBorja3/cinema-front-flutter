@@ -3,6 +3,7 @@ import 'package:cinema/src/pages/home_page.dart';
 import 'package:cinema/src/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
+//prueba
 void main() {
   runApp(MyApp());
 }
