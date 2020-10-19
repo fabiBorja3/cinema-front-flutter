@@ -20,14 +20,14 @@ class UserModel {
     String username;
 
     factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        id: json["id"],
-        password: json["password"],
-        username: json["username"],
+        id: json['id'],
+        password: json['password'],
+        username: json['username'],
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
-        "password": password,
-        "username": username,
+        'id': id,
+        'password': password,
+        'username': username,
     };
 }

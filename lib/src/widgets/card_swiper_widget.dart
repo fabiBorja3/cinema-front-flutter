@@ -1,8 +1,12 @@
+import 'package:cinema/src/Utils/alert_dialog.dart';
+import 'package:cinema/src/models/movie_model.dart';
+import 'package:cinema/src/providers/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class CardSwiper extends StatelessWidget {
   final List<dynamic> peliculas;
+  final homeProvider = new HomeProvider();
 
   CardSwiper({@required this.peliculas});
 
@@ -19,15 +23,29 @@ class CardSwiper extends StatelessWidget {
         itemWidth: _screenSize.width * 0.5,
         itemHeight: _screenSize.height * 0.5,
         itemBuilder: (BuildContext context, int index) {
-          return Image.network(
-            "http://via.placeholder.com/350x150",
-            fit: BoxFit.cover,
-          );
+          return ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: FadeInImage(
+                  image: NetworkImage(peliculas[index]['poster']),
+                  placeholder: AssetImage('assets/img/no-image.jpg')));
         },
         itemCount: peliculas.length,
+        onTap: (index) {
+          informacion(context, index);
+          //AlertDialogCustom.showInfoPeliculas(context, homeProvider.getPelicula(peliculas[index]['id']));
+        },
         //pagination: new SwiperPagination(),
         //control: new SwiperControl(),
       ),
     );
   }
+
+  Future<void> informacion(BuildContext context, int index) async {
+    print('Fetching user order...');
+    print(await homeProvider.getPelicula(peliculas[index]['id']).then((value) {
+      AlertDialogCustom.showInfoPeliculas(context, value);
+      return value;
+    }));
+  }
+  // "http://via.placeholder.com/350x150",
 }

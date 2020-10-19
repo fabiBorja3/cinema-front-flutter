@@ -73,15 +73,8 @@ class LoginPage extends StatelessWidget {
     print('Email ${bloc.email}');
     print('Password ${bloc.password}');
     print('==============');
-    userProvider.loginUser(user);
-    /*
-    if(userProvider.loginUser(user)){
-
-    }else{
-
-    }
-    */
-    Navigator.pushReplacementNamed(context, 'home');
+    userProvider.loginUser(context,user);
+    
   }
 
   Widget _crearBoton(LoginBloc bloc) {
@@ -103,9 +96,12 @@ class LoginPage extends StatelessWidget {
         });
   }
 
+
   Widget _loginForm(BuildContext context) {
     final bloc = Provider.of(context);
     final size = MediaQuery.of(context).size;
+      //Navigator.pushReplacementNamed(context, 'home');
+      
     return SingleChildScrollView(
       child: Column(
         children: [
