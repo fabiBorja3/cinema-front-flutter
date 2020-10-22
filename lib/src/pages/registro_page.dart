@@ -3,8 +3,8 @@ import 'package:cinema/src/models/user_model.dart';
 import 'package:cinema/src/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
-  UserModel user = UserModel();
+class RegistroPage extends StatelessWidget {
+  UserModel user = new UserModel();
   final userProvider = new UserProvider();
 
   @override
@@ -83,7 +83,7 @@ class LoginPage extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return RaisedButton(
             child: Container(
-              child: Text('Ingreso'),
+              child: Text('Registro'),
               padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
             ),
             shape: RoundedRectangleBorder(
@@ -95,8 +95,6 @@ class LoginPage extends StatelessWidget {
           );
         });
   }
-
-  
 
 
   Widget _loginForm(BuildContext context) {
@@ -128,7 +126,7 @@ class LoginPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Ingreso',
+                  'Registro',
                   style: TextStyle(fontSize: 20.0),
                 ),
                 SizedBox(
@@ -146,11 +144,11 @@ class LoginPage extends StatelessWidget {
               ],
             ),
           ),
-   GestureDetector(
+          GestureDetector(
   onTap: () {
-       Navigator.pushReplacementNamed(context, 'recuperacion');
+       Navigator.pushReplacementNamed(context, 'login');
   },
-  child: Text("¿Olvido la contraseña?"),
+  child: Text("Login"),
 ),
           const Divider(
             color: Colors.black,
@@ -159,11 +157,11 @@ class LoginPage extends StatelessWidget {
             indent: 20,
             endIndent: 0,
           ),
-    GestureDetector(
+                  GestureDetector(
   onTap: () {
-          Navigator.pushReplacementNamed(context, 'registro');
+       Navigator.pushReplacementNamed(context, 'recuperacion');
   },
-  child: Text("Registrese"),
+  child: Text("¿Olvido la contraseña?"),
 ),
           SizedBox(
             height: 100.0,

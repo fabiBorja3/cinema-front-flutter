@@ -1,6 +1,8 @@
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/pages/home_page.dart';
 import 'package:cinema/src/pages/login_page.dart';
+import 'package:cinema/src/pages/recuperar_page.dart';
+import 'package:cinema/src/pages/registro_page.dart';
 import 'package:flutter/material.dart';
 
 //prueba
@@ -20,6 +22,8 @@ class MyApp extends StatelessWidget {
         routes: {
           'login': (BuildContext context) => LoginPage(),
           'home': (BuildContext context) => HomePage(),
+          'recuperacion': (BuildContext context) => RecuperarPage(),
+          'registro': (BuildContext context) => RegistroPage(),
         },
         theme: ThemeData(
           // This is the theme of your application.

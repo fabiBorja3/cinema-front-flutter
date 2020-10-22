@@ -9,7 +9,7 @@ import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
 
 class HomeProvider {
-  final String _url = 'http://192.168.1.11:8088/cinema';
+  final String _url = 'https://cinema-spring-boot-heroku.herokuapp.com/cinema';
 
   //final String _url = 'http://cinema7.herokuapp.com/cinema';
 
