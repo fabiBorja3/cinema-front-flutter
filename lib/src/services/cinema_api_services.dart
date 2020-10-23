@@ -10,6 +10,7 @@ class CinemaApiService {
   Future<String> getLogin(UserModel userModel) => cinemaApiRepository.loginUser(userModel);
   Future<String> getPassword(UserModel userModel) => cinemaApiRepository.getPassword(userModel);
   Future<String> updatePassword(UserModel userModel) => cinemaApiRepository.updatePassword(userModel);
+  Future<String> registrarUser(UserModel userModel) => cinemaApiRepository.registrarUser(userModel);
 
   Future<dynamic> getEnCines() => cinemaApiRepository.getEnCines();
   Future<dynamic> getPelicula(int id) => cinemaApiRepository.getPelicula(id);

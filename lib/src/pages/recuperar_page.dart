@@ -1,4 +1,6 @@
 import 'package:cinema/src/blocs/provider.dart';
+import 'package:cinema/src/blocs/provider_recuperar.dart';
+import 'package:cinema/src/blocs/recuperacion_pws_bloc.dart';
 import 'package:cinema/src/models/user_model.dart';
 import 'package:cinema/src/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,7 @@ class RecuperarPage extends StatelessWidget {
     );
   }
 
-  _crearEmail(LoginBloc bloc) {
+  _crearEmail(RecuperarBloc bloc) {
     return StreamBuilder(
       stream: bloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -43,7 +45,7 @@ class RecuperarPage extends StatelessWidget {
     );
   }
 
-  _crearPassword(LoginBloc bloc) {
+  _crearPassword(RecuperarBloc bloc) {
     return StreamBuilder(
         stream: bloc.passwordStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -66,7 +68,7 @@ class RecuperarPage extends StatelessWidget {
         });
   }
 
-  _login(LoginBloc bloc, BuildContext context) {
+  _login(RecuperarBloc bloc, BuildContext context) {
     user.username = bloc.email;
     user.password = bloc.password;
     print('================');
@@ -77,7 +79,7 @@ class RecuperarPage extends StatelessWidget {
     
   }
 
-  Widget _crearBoton(LoginBloc bloc) {
+  Widget _crearBoton(RecuperarBloc bloc) {
     return StreamBuilder(
         stream: bloc.formValidStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -98,7 +100,7 @@ class RecuperarPage extends StatelessWidget {
 
 
   Widget _loginForm(BuildContext context) {
-    final bloc = Provider.of(context);
+    final bloc = ProviderRecuperar.of(context);
     final size = MediaQuery.of(context).size;
       //Navigator.pushReplacementNamed(context, 'home');
       

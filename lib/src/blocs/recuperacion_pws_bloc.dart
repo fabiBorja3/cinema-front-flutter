@@ -1,12 +1,9 @@
-
 import 'dart:async';
 
 import 'package:cinema/src/blocs/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
-class HomeBloc with Validators {
-
-  /*
+class RecuperarBloc with Validators {
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
 
@@ -32,6 +29,4 @@ class HomeBloc with Validators {
     _emailController?.close();
     _passwordController?.close();
   }
-
-  */
 }

@@ -1,11 +1,13 @@
+
 import 'package:cinema/src/blocs/provider.dart';
+import 'package:cinema/src/blocs/registro_bloc.dart';
 import 'package:cinema/src/models/user_model.dart';
-import 'package:cinema/src/providers/user_provider.dart';
+import 'package:cinema/src/services/cinema_api_services.dart';
 import 'package:flutter/material.dart';
 
 class RegistroPage extends StatelessWidget {
   UserModel user = new UserModel();
-  final userProvider = new UserProvider();
+  final cinemaService = new CinemaApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class RegistroPage extends StatelessWidget {
     );
   }
 
-  _crearEmail(LoginBloc bloc) {
+ Widget _crearEmail(RegistroBloc bloc) {
     return StreamBuilder(
       stream: bloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -43,7 +45,7 @@ class RegistroPage extends StatelessWidget {
     );
   }
 
-  _crearPassword(LoginBloc bloc) {
+ Widget _crearPassword(RegistroBloc bloc) {
     return StreamBuilder(
         stream: bloc.passwordStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -66,18 +68,18 @@ class RegistroPage extends StatelessWidget {
         });
   }
 
-  _login(LoginBloc bloc, BuildContext context) {
+ void _registrar(RegistroBloc bloc, BuildContext context) {
     user.username = bloc.email;
     user.password = bloc.password;
     print('================');
     print('Email ${bloc.email}');
     print('Password ${bloc.password}');
     print('==============');
-    userProvider.loginUser(context,user);
+    cinemaService.registrarUser(user);
     
   }
 
-  Widget _crearBoton(LoginBloc bloc) {
+  Widget _crearBoton(RegistroBloc bloc) {
     return StreamBuilder(
         stream: bloc.formValidStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -91,14 +93,14 @@ class RegistroPage extends StatelessWidget {
             elevation: 0.0,
             color: Colors.deepPurple,
             textColor: Colors.white,
-            onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
+            onPressed: snapshot.hasData ? () => _registrar(bloc, context) : null,
           );
         });
   }
 
 
   Widget _loginForm(BuildContext context) {
-    final bloc = Provider.of(context);
+    final bloc = Provider.ofRegistro(context);
     final size = MediaQuery.of(context).size;
       //Navigator.pushReplacementNamed(context, 'home');
       

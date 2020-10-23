@@ -31,6 +31,28 @@ class CinemaApiRepository {
     return response.body;
   }
 
+    Future<String> registrarUser(UserModel user) async {
+    final url = '$_url/user';
+    var data = {'id':'null','password':user.password,'nickname':user.username,'token':1};
+
+  //encode Map to JSON
+  var body = json.encode(data);
+      var response = await http.post(url,
+      headers: {"Content-Type": "application/json"},
+      body: body
+  );
+
+    if (response.body.contains('token')) {
+      //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
+    } else {
+      var session = FlutterSession();
+      await session.set('token', response.body);
+      //Navigator.pushReplacementNamed(context, 'home');
+    }
+
+    return response.body;
+  }
+
 
 
     Future<String> getPassword(UserModel user) async {

@@ -1,3 +1,4 @@
+import 'package:cinema/src/blocs/provider_home.dart';
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/providers/home_provider.dart';

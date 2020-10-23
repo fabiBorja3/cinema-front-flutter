@@ -1,5 +1,7 @@
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/models/user_model.dart';
+import 'package:cinema/src/pages/recuperar_page.dart';
+import 'package:cinema/src/pages/registro_page.dart';
 import 'package:cinema/src/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +21,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  _crearEmail(LoginBloc bloc) {
+  Widget _crearEmail(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -43,7 +45,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  _crearPassword(LoginBloc bloc) {
+  Widget _crearPassword(LoginBloc bloc) {
     return StreamBuilder(
         stream: bloc.passwordStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -73,8 +75,7 @@ class LoginPage extends StatelessWidget {
     print('Email ${bloc.email}');
     print('Password ${bloc.password}');
     print('==============');
-    userProvider.loginUser(context,user);
-    
+    userProvider.loginUser(context, user);
   }
 
   Widget _crearBoton(LoginBloc bloc) {
@@ -96,14 +97,11 @@ class LoginPage extends StatelessWidget {
         });
   }
 
-  
-
-
   Widget _loginForm(BuildContext context) {
     final bloc = Provider.of(context);
     final size = MediaQuery.of(context).size;
-      //Navigator.pushReplacementNamed(context, 'home');
-      
+    //Navigator.pushReplacementNamed(context, 'home');
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -146,12 +144,14 @@ class LoginPage extends StatelessWidget {
               ],
             ),
           ),
-   GestureDetector(
-  onTap: () {
-       Navigator.pushReplacementNamed(context, 'recuperacion');
-  },
-  child: Text("¿Olvido la contraseña?"),
-),
+          GestureDetector(
+            onTap: () {
+              bloc.dispose();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => RecuperarPage()));
+            },
+            child: Text("¿Olvido la contraseña?"),
+          ),
           const Divider(
             color: Colors.black,
             height: 20,
@@ -159,12 +159,13 @@ class LoginPage extends StatelessWidget {
             indent: 20,
             endIndent: 0,
           ),
-    GestureDetector(
-  onTap: () {
-          Navigator.pushReplacementNamed(context, 'registro');
-  },
-  child: Text("Registrese"),
-),
+          GestureDetector(
+            onTap: () {
+              bloc.dispose();
+              Navigator.push(context,  MaterialPageRoute(builder: (context) => RegistroPage()));
+            },
+            child: Text("Registrese"),
+          ),
           SizedBox(
             height: 100.0,
           )
