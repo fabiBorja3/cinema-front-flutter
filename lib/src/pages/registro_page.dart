@@ -12,13 +12,58 @@ class RegistroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          appBar: AppBar(
+          title: Text('Registro de usuarios'),
+          backgroundColor: Colors.deepPurple,
+        ),
       body: Stack(
         children: <Widget>[
           _crearFondo(context),
           _loginForm(context),
         ],
       ),
-    );
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(color: Colors.deepPurple),
+                child: Text(
+                  'MY APP',
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text("Crear administradores"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'registro');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text("Registrar usuarios"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'registroPersona');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text("Registrar Teatro"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'RegistroTeatro');
+                },
+              ),
+               ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text("Ocupacion"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'OcuparCine');
+                },
+              )
+            ],
+          ),
+        ));
+
   }
 
  Widget _crearEmail(RegistroBloc bloc) {
@@ -128,7 +173,7 @@ class RegistroPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Registro',
+                  'Ingrese los datos del usuario',
                   style: TextStyle(fontSize: 20.0),
                 ),
                 SizedBox(

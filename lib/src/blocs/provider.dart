@@ -19,10 +19,17 @@ class Provider extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<Provider>().loginBloc;
   }
 
-  static RegistroBloc ofRegistro(BuildContext context){
+  static RegistroBloc ofRegistro(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>().registroBloc;
   }
 
+  static RegistroBloc ofInscripcion(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>().registroBloc;
+  }
+
+  static RegistroBloc ofRegistroPeliculas(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>().registroBloc;
+  }
 }
 /*
 

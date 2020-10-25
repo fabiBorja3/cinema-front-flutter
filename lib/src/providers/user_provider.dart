@@ -1,3 +1,6 @@
+
+/*
+
 import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/models/user_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,7 +8,7 @@ import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
 
 class UserProvider {
-  final String _url = 'https://cinema-spring-boot-heroku.herokuapp.com/cinema';
+  final String _url = 'https://cinema-spring-boot-heroku.herokuapp.com/cinema/auth';
 
   //final String _url = 'http://cinema7.herokuapp.com/cinema';
 
@@ -28,3 +31,4 @@ class UserProvider {
   }
 }
 //http://cinema7.herokuapp.com/cinema/
+*/

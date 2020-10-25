@@ -16,17 +16,59 @@ class HomePage extends StatelessWidget {
     final bloc = Provider.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Peliculas en cartelera'),
-      backgroundColor: Colors.deepPurple,),
-      body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text('Email: ${bloc.email}'),
-            Divider(),
-            Text('Password: ${bloc.password}'),
-            _swiperTarjetas(),
-          ]),
-    );
+        appBar: AppBar(
+          title: Text('Peliculas en cartelera'),
+          backgroundColor: Colors.deepPurple,
+        ),
+        body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text('Email: ${bloc.email}'),
+              Divider(),
+              Text('Password: ${bloc.password}'),
+              _swiperTarjetas()
+            ]),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(color: Colors.deepPurple),
+                child: Text(
+                  'MY APP',
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text("Crear administradores"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'registro');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text("Registrar usuarios"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'registroPersona');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text("Registrar Teatro"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'RegistroTeatro');
+                },
+              ),
+               ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text("Ocupacion"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'OcuparCine');
+                },
+              )
+            ],
+          ),
+        ));
   }
 
   Widget _swiperTarjetas() {
@@ -41,7 +83,6 @@ class HomePage extends StatelessWidget {
         }
       },
     );
-
 
     // return CardSwiper(
     //   peliculas: [1,2,3,4,5],

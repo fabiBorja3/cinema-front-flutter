@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class RecuperarPage extends StatelessWidget {
   UserModel user = new UserModel();
-  final userProvider = new UserProvider();
+ // final userProvider = new UserProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class RecuperarPage extends StatelessWidget {
     print('Email ${bloc.email}');
     print('Password ${bloc.password}');
     print('==============');
-    userProvider.loginUser(context,user);
+   /// userProvider.loginUser(context,user);
     
   }
 

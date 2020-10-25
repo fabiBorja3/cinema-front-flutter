@@ -1,13 +1,16 @@
+import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/models/user_model.dart';
 import 'package:cinema/src/pages/recuperar_page.dart';
 import 'package:cinema/src/pages/registro_page.dart';
 import 'package:cinema/src/providers/user_provider.dart';
+import 'package:cinema/src/services/cinema_api_services.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
   UserModel user = UserModel();
-  final userProvider = new UserProvider();
+  //final userProvider = new UserProvider();
+  final servicioApi = CinemaApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +78,21 @@ class LoginPage extends StatelessWidget {
     print('Email ${bloc.email}');
     print('Password ${bloc.password}');
     print('==============');
-    userProvider.loginUser(context, user);
+    servicioApi.getLogin(user).then((value) {
+      if(value == 'invalido'){
+      AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
+      }else{
+Navigator.pushReplacementNamed(context, 'home');
+      }
+      
+      return value;
+    });
+
+    
+
+    
+
+    //userProvider.loginUser(context, user);
   }
 
   Widget _crearBoton(LoginBloc bloc) {
@@ -162,7 +179,8 @@ class LoginPage extends StatelessWidget {
           GestureDetector(
             onTap: () {
               bloc.dispose();
-              Navigator.push(context,  MaterialPageRoute(builder: (context) => RegistroPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => RegistroPage()));
             },
             child: Text("Registrese"),
           ),
