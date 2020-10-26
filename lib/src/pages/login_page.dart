@@ -1,9 +1,6 @@
 import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/models/user_model.dart';
-import 'package:cinema/src/pages/recuperar_page.dart';
-import 'package:cinema/src/pages/registro_page.dart';
-import 'package:cinema/src/providers/user_provider.dart';
 import 'package:cinema/src/services/cinema_api_services.dart';
 import 'package:flutter/material.dart';
 
@@ -161,28 +158,13 @@ Navigator.pushReplacementNamed(context, 'home');
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              bloc.dispose();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RecuperarPage()));
-            },
-            child: Text("¿Olvido la contraseña?"),
-          ),
+
           const Divider(
             color: Colors.black,
             height: 20,
             thickness: 5,
             indent: 20,
             endIndent: 0,
-          ),
-          GestureDetector(
-            onTap: () {
-              bloc.dispose();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RegistroPage()));
-            },
-            child: Text("Registrese"),
           ),
           SizedBox(
             height: 100.0,

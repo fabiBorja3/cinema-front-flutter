@@ -1,13 +1,14 @@
-import 'package:cinema/src/blocs/provider_home.dart';
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/providers/home_provider.dart';
+import 'package:cinema/src/services/cinema_api_services.dart';
 import 'package:cinema/src/widgets/card_swiper_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 
 class HomePage extends StatelessWidget {
   String token;
+  final servicioApi = CinemaApiService();
   MovieModel user = new MovieModel();
   final homeProvider = new HomeProvider();
 
@@ -65,7 +66,22 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.pushReplacementNamed(context, 'OcuparCine');
                 },
-              )
+              ),
+               ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text("Registrar Persona"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'RegistroPersona');
+                },
+              ),
+               ListTile(
+                leading: Icon(Icons.verified_user),
+                title: Text("Registrar Teatro"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'RegistroTeatro');
+                },
+              ),
+              
             ],
           ),
         ));
@@ -73,7 +89,8 @@ class HomePage extends StatelessWidget {
 
   Widget _swiperTarjetas() {
     return FutureBuilder(
-      future: homeProvider.getEnCines(),
+      //future: homeProvider.getEnCines(),
+      future: servicioApi.cinemaApiRepository.getEnCines(),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
           return CardSwiper(peliculas: snapshot.data);
@@ -83,6 +100,7 @@ class HomePage extends StatelessWidget {
         }
       },
     );
+
 
     // return CardSwiper(
     //   peliculas: [1,2,3,4,5],
