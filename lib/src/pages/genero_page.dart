@@ -1,97 +1,72 @@
-
+import 'package:cinema/src/Utils/alert_dialog.dart';
+import 'package:cinema/src/blocs/genero_bloc.dart';
 import 'package:cinema/src/blocs/provider.dart';
-import 'package:cinema/src/blocs/registro_bloc.dart';
-import 'package:cinema/src/models/user_model.dart';
+import 'package:cinema/src/models/gender_model.dart';
 import 'package:cinema/src/services/cinema_api_services.dart';
-import 'package:cinema/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
-class RegistroPage extends StatelessWidget {
-  UserModel user = new UserModel();
-  final cinemaService = CinemaApiService();
+class GeneroPage extends StatelessWidget {
+  GeneroModel generoModel = GeneroModel();
+  //final userProvider = new UserProvider();
+  final servicioApi = CinemaApiService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-          title: Text('Registro de usuarios'),
-          backgroundColor: Colors.deepPurple,
-        ),
       body: Stack(
         children: <Widget>[
           _crearFondo(context),
           _loginForm(context),
         ],
       ),
-        drawer: menuWidget());
-
+    );
   }
 
- Widget _crearEmail(RegistroBloc bloc) {
+  Widget _crearGenero(RegistroGeneroBloc bloc) {
     return StreamBuilder(
-      stream: bloc.emailStream,
+      stream: bloc.generoStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           child: TextField(
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.text,
             decoration: InputDecoration(
                 icon: Icon(
                   Icons.alternate_email,
                   color: Colors.deepPurple,
                 ),
-                hintText: 'ejemplo@correo.com',
-                labelText: 'Correo electronico',
+                hintText: 'Accion',
+                labelText: 'Genero',
                 errorText: snapshot.error,
                 counterText: snapshot.data),
-            onChanged: bloc.changeEmail,
+            onChanged: bloc.changeGenero,
           ),
         );
       },
     );
   }
 
- Widget _crearPassword(RegistroBloc bloc) {
-    return StreamBuilder(
-        stream: bloc.passwordStream,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: TextField(
-              obscureText: true,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                  icon: Icon(
-                    Icons.lock_outline,
-                    color: Colors.deepPurple,
-                  ),
-                  labelText: 'Password',
-                  counterText: snapshot.data,
-                  errorText: snapshot.error),
-              onChanged: bloc.changePassword,
-            ),
-          );
-        });
+
+
+  _registrarGenero(RegistroGeneroBloc bloc, BuildContext context) {
+    generoModel.name = bloc.nombre;
+    servicioApi.registrarGenero(generoModel).then((value) {
+      if(value == 'invalido'){
+      AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
+      }else{
+Navigator.pushReplacementNamed(context, 'home');
+      }
+      
+      return value;
+    });
+
+ 
   }
 
- void _registrar(RegistroBloc bloc, BuildContext context) {
-    user.username = bloc.email;
-    user.password = bloc.password;
-    print('================');
-    print('Email ${bloc.email}');
-    print('Password ${bloc.password}');
-    print('==============');
-    cinemaService.registrarUser(user);
-    
-  }
-
-  Widget _crearBoton(RegistroBloc bloc) {
-    return StreamBuilder(
-        stream: bloc.formValidStream,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
+  Widget _crearBoton(BuildContext context, RegistroGeneroBloc bloc) {
           return RaisedButton(
             child: Container(
-              child: Text('Registro'),
+              child: Text('Ingreso'),
               padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
             ),
             shape: RoundedRectangleBorder(
@@ -99,17 +74,15 @@ class RegistroPage extends StatelessWidget {
             elevation: 0.0,
             color: Colors.deepPurple,
             textColor: Colors.white,
-            onPressed: snapshot.hasData ? () => _registrar(bloc, context) : null,
+            onPressed: bloc.nombre.length > 0 ? () => _registrarGenero(bloc, context) : null,
           );
-        });
   }
 
-
   Widget _loginForm(BuildContext context) {
-    final bloc = Provider.ofRegistro(context);
+    final bloc = Provider.ofRegistroGenero(context);
     final size = MediaQuery.of(context).size;
-      //Navigator.pushReplacementNamed(context, 'home');
-      
+    //Navigator.pushReplacementNamed(context, 'home');
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -134,30 +107,21 @@ class RegistroPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Ingrese los datos del usuario',
+                  'Ingreso',
                   style: TextStyle(fontSize: 20.0),
                 ),
                 SizedBox(
                   height: 60.0,
                 ),
-                _crearEmail(bloc),
+                _crearGenero(bloc),
                 SizedBox(
                   height: 60.0,
                 ),
-                _crearPassword(bloc),
-                SizedBox(
-                  height: 60.0,
-                ),
-                _crearBoton(bloc),
+                _crearBoton(context, bloc),
               ],
             ),
           ),
-          GestureDetector(
-  onTap: () {
-       Navigator.pushReplacementNamed(context, 'login');
-  },
-  child: Text("Login"),
-),
+
           const Divider(
             color: Colors.black,
             height: 20,
@@ -165,12 +129,6 @@ class RegistroPage extends StatelessWidget {
             indent: 20,
             endIndent: 0,
           ),
-                  GestureDetector(
-  onTap: () {
-       Navigator.pushReplacementNamed(context, 'recuperacion');
-  },
-  child: Text("¿Olvido la contraseña?"),
-),
           SizedBox(
             height: 100.0,
           )

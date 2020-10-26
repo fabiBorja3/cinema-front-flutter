@@ -1,12 +1,11 @@
 import 'package:cinema/src/Utils/alert_dialog.dart';
-import 'package:cinema/src/models/movie_model.dart';
-import 'package:cinema/src/providers/home_provider.dart';
+import 'package:cinema/src/services/cinema_api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class CardSwiper extends StatelessWidget {
   final List<dynamic> peliculas;
-  final homeProvider = new HomeProvider();
+  final cinemaApi = CinemaApiService();
 
   CardSwiper({@required this.peliculas});
 
@@ -42,7 +41,7 @@ class CardSwiper extends StatelessWidget {
 
   Future<void> informacion(BuildContext context, int index) async {
     print('Fetching user order...');
-    print(await homeProvider.getPelicula(peliculas[index]['id']).then((value) {
+    print(await cinemaApi.getPelicula(peliculas[index]['id']).then((value) {
       AlertDialogCustom.showInfoPeliculas(context, value);
       return value;
     }));

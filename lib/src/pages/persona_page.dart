@@ -3,6 +3,7 @@ import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/blocs/registro_personas_bloc.dart';
 import 'package:cinema/src/models/person_model.dart';
 import 'package:cinema/src/services/cinema_api_services.dart';
+import 'package:cinema/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class PersonaPage extends StatelessWidget {
@@ -13,13 +14,17 @@ class PersonaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          appBar: AppBar(
+          title: Text('Peliculas en cartelera'),
+          backgroundColor: Colors.deepPurple,
+        ),
       body: Stack(
         children: <Widget>[
           _crearFondo(context),
           _loginForm(context),
         ],
       ),
-    );
+      drawer: menuWidget());
   }
 
 

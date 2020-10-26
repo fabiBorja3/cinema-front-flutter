@@ -1,15 +1,20 @@
 import 'package:cinema/src/blocs/login_bloc.dart';
+export 'package:cinema/src/blocs/login_bloc.dart';
 import 'package:cinema/src/blocs/registro_bloc.dart';
+export 'package:cinema/src/blocs/registro_bloc.dart';
 import 'package:cinema/src/blocs/registro_personas_bloc.dart';
 export 'package:cinema/src/blocs/registro_personas_bloc.dart';
-export 'package:cinema/src/blocs/registro_bloc.dart';
-export 'package:cinema/src/blocs/login_bloc.dart';
+
+
 import 'package:flutter/material.dart';
+
+import 'genero_bloc.dart';
 
 class Provider extends InheritedWidget {
   final loginBloc = LoginBloc();
   final registroBloc = RegistroBloc();
   final registroPersonasBloc = RegistrarPersonasBloc();
+  final registroGeneroBloc = RegistroGeneroBloc();
 
   Provider({Key key, Widget child}) : super(key: key, child: child);
 
@@ -35,7 +40,13 @@ class Provider extends InheritedWidget {
   }
 
   static RegistrarPersonasBloc ofRegistroPersonas(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<Provider>().registroPersonasBloc;
+    return context
+        .dependOnInheritedWidgetOfExactType<Provider>()
+        .registroPersonasBloc;
+  }
+
+  static RegistroGeneroBloc ofRegistroGenero(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>().registroGeneroBloc;
   }
 }
 /*

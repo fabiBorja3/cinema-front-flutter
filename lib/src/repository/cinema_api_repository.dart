@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cinema/src/models/gender_model.dart';
 import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/models/person_model.dart';
 import 'package:cinema/src/models/user_model.dart';
@@ -92,7 +93,36 @@ class CinemaApiRepository {
     return response.body;
   }
 
-  
+    Future<String> registrarGenero(GeneroModel generoModel) async {
+    final url = '$_url/api/v1/gender';
+    String token = await FlutterSession().get('token');
+    var data = {
+      'id': 0,
+      'name': generoModel.name,
+    };
+
+    //encode Map to JSON
+    var body = json.encode(data);
+    var response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: body);
+
+    if (response.body.contains('token')) {
+      //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
+    } else {
+      var session = FlutterSession();
+      await session.set('token', response.body);
+      //Navigator.pushReplacementNamed(context, 'home');
+    }
+
+    return response.body;
+  }
+
+
+
 
   Future<String> getPassword(UserModel user) async {
     final url = '$_url/token';

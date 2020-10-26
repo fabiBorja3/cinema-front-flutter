@@ -1,16 +1,14 @@
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/models/movie_model.dart';
-import 'package:cinema/src/providers/home_provider.dart';
 import 'package:cinema/src/services/cinema_api_services.dart';
 import 'package:cinema/src/widgets/card_swiper_widget.dart';
+import 'package:cinema/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_session/flutter_session.dart';
 
 class HomePage extends StatelessWidget {
   String token;
   final servicioApi = CinemaApiService();
-  MovieModel user = new MovieModel();
-  final homeProvider = new HomeProvider();
+  MovieModel user = MovieModel();
 
   @override
   Widget build(BuildContext context) {
@@ -29,62 +27,7 @@ class HomePage extends StatelessWidget {
               Text('Password: ${bloc.password}'),
               _swiperTarjetas()
             ]),
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(color: Colors.deepPurple),
-                child: Text(
-                  'MY APP',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Crear administradores"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'registro');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Registrar usuarios"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'registroPersona');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Registrar Teatro"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'RegistroTeatro');
-                },
-              ),
-               ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Ocupacion"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'OcuparCine');
-                },
-              ),
-               ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Registrar Persona"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'RegistroPersona');
-                },
-              ),
-               ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Registrar Teatro"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'RegistroTeatro');
-                },
-              ),
-              
-            ],
-          ),
-        ));
+        drawer: menuWidget());
   }
 
   Widget _swiperTarjetas() {

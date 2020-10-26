@@ -1,4 +1,5 @@
 import 'package:cinema/src/blocs/provider.dart';
+import 'package:cinema/src/pages/genero_page.dart';
 import 'package:cinema/src/pages/home_page.dart';
 import 'package:cinema/src/pages/login_page.dart';
 import 'package:cinema/src/pages/persona_page.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
           'home': (BuildContext context) => HomePage(),
           'registro': (BuildContext context) => RegistroPage(),
           'RegistroPersona': (BuildContext context) => PersonaPage(),
+          'RegistroGenero': (BuildContext context) => GeneroPage(),
         },
         theme: ThemeData(
           // This is the theme of your application.
