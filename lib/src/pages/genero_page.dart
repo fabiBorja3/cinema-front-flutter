@@ -51,10 +51,8 @@ class GeneroPage extends StatelessWidget {
   _registrarGenero(RegistroGeneroBloc bloc, BuildContext context) {
     generoModel.name = bloc.nombre;
     servicioApi.registrarGenero(generoModel).then((value) {
-      if(value == 'invalido'){
-      AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
-      }else{
-Navigator.pushReplacementNamed(context, 'home');
+      if(value == 'correcto'){
+      AlertDialogCustom.showAlert(context, 'Se registro correctamente el género.');
       }
       
       return value;
@@ -74,7 +72,7 @@ Navigator.pushReplacementNamed(context, 'home');
             elevation: 0.0,
             color: Colors.deepPurple,
             textColor: Colors.white,
-            onPressed: bloc.nombre.length > 0 ? () => _registrarGenero(bloc, context) : null,
+            onPressed: () =>  _registrarGenero(bloc, context)
           );
   }
 

@@ -1,4 +1,5 @@
 
+import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/blocs/registro_bloc.dart';
 import 'package:cinema/src/models/user_model.dart';
@@ -81,7 +82,13 @@ class RegistroPage extends StatelessWidget {
     print('Email ${bloc.email}');
     print('Password ${bloc.password}');
     print('==============');
-    cinemaService.registrarUser(user);
+    cinemaService.registrarUser(user).then((value) {
+      if(value == 'correcto'){
+      AlertDialogCustom.showAlert(context, 'Se registro un usuario administrador.');
+      }
+      
+      return value;
+    });
     
   }
 

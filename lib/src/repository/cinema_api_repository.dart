@@ -5,6 +5,7 @@ import 'package:cinema/src/models/gender_model.dart';
 import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/models/person_model.dart';
 import 'package:cinema/src/models/user_model.dart';
+import 'package:cinema/src/models/cinema_model.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
 
@@ -50,15 +51,21 @@ class CinemaApiRepository {
         },
         body: body);
 
-    if (response.body.contains('token')) {
+    /* if (response.body.contains('token')) {
       //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
     } else {
       var session = FlutterSession();
       await session.set('token', response.body);
       //Navigator.pushReplacementNamed(context, 'home');
-    }
+    } */
 
-    return response.body;
+   // return response.body;
+
+   if (response.body.contains('exception')) {
+      return 'invalido';
+    } else {
+       return 'correcto';
+    }
   }
 
   Future<String> registrarPersona(PersonModel person) async {
@@ -82,15 +89,21 @@ class CinemaApiRepository {
         },
         body: body);
 
-    if (response.body.contains('token')) {
+    /* if (response.body.contains('token')) {
       //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
     } else {
       var session = FlutterSession();
       await session.set('token', response.body);
       //Navigator.pushReplacementNamed(context, 'home');
+    } */
+
+    if (response.body.contains('exception')) {
+      return 'invalido';
+    } else {
+       return 'correcto';
     }
 
-    return response.body;
+    //return response.body;
   }
 
     Future<String> registrarGenero(GeneroModel generoModel) async {
@@ -110,15 +123,20 @@ class CinemaApiRepository {
         },
         body: body);
 
-    if (response.body.contains('token')) {
+    /* if (response.body.contains('token')) {
       //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
     } else {
       var session = FlutterSession();
       await session.set('token', response.body);
       //Navigator.pushReplacementNamed(context, 'home');
-    }
+    } */
 
-    return response.body;
+    //return response.body;
+    if (response.body.contains('exception')) {
+      return 'invalido';
+    } else {
+       return 'correcto';
+    }
   }
 
 
@@ -185,5 +203,30 @@ class CinemaApiRepository {
     final decodedData = json.decode(response.body);
 
     return decodedData;
+  }
+
+  Future<String> registrarCinema(CinemaModel cinema) async {
+    final url = '$_url/api/v1/cinema';
+    String token = await FlutterSession().get("token");
+    var data = {  
+      'address' : cinema.address,
+      'id': 0,
+      'name': cinema.name,
+      'phone' : cinema.phone,
+      'id_city' : 1
+    };
+ 
+    //encode Map to JSON
+    var body = json.encode(data);
+    var response = await http.post(url,
+        headers: {"Content-Type": "application/json",
+                  'Authorization': 'Bearer $token',}, body: body);
+ 
+    if (response.body.contains('exception')) {
+      return 'invalido';
+    } else {
+       return 'correcto';
+    }
+
   }
 }

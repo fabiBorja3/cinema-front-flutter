@@ -4,6 +4,7 @@ import 'package:cinema/src/pages/home_page.dart';
 import 'package:cinema/src/pages/login_page.dart';
 import 'package:cinema/src/pages/persona_page.dart';
 import 'package:cinema/src/pages/registro_page.dart';
+import 'package:cinema/src/pages/cinema_page.dart';
 import 'package:flutter/material.dart';
 
 //prueba
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
           'registro': (BuildContext context) => RegistroPage(),
           'RegistroPersona': (BuildContext context) => PersonaPage(),
           'RegistroGenero': (BuildContext context) => GeneroPage(),
+          'RegistrarCinema': (BuildContext context) => CinemaPage(),
         },
         theme: ThemeData(
           // This is the theme of your application.

@@ -57,6 +57,13 @@ class menuWidget  extends StatelessWidget {
                   Navigator.pushReplacementNamed(context, 'RegistroGenero');
                 },
               ),
+              ListTile(
+                leading: Icon(Icons.games),
+                title: Text("Registrar Cinema"),
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, 'RegistrarCinema');
+                },
+              ),
               
             ],
           ),
