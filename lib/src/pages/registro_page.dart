@@ -1,34 +1,29 @@
 
-import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/blocs/registro_bloc.dart';
 import 'package:cinema/src/models/user_model.dart';
-import 'package:cinema/src/services/cinema_api_services.dart';
 import 'package:cinema/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class RegistroPage extends StatelessWidget {
-  UserModel user = new UserModel();
-  final cinemaService = CinemaApiService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-          title: Text('Registro de usuarios'),
+        appBar: AppBar(
+          title: Text('Registro de Administradores'),
           backgroundColor: Colors.deepPurple,
         ),
-      body: Stack(
-        children: <Widget>[
-          _crearFondo(context),
-          _loginForm(context),
-        ],
-      ),
+        body: Stack(
+          children: <Widget>[
+            _crearFondo(context),
+            _loginForm(context),
+          ],
+        ),
         drawer: menuWidget());
-
   }
 
- Widget _crearEmail(RegistroBloc bloc) {
+  Widget _crearEmail(RegistroBloc bloc) {
     return StreamBuilder(
       stream: bloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -52,7 +47,7 @@ class RegistroPage extends StatelessWidget {
     );
   }
 
- Widget _crearPassword(RegistroBloc bloc) {
+  Widget _crearPassword(RegistroBloc bloc) {
     return StreamBuilder(
         stream: bloc.passwordStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -75,21 +70,15 @@ class RegistroPage extends StatelessWidget {
         });
   }
 
- void _registrar(RegistroBloc bloc, BuildContext context) {
-    user.username = bloc.email;
-    user.password = bloc.password;
+  void _registrar(RegistroBloc bloc, BuildContext context) {
+    UserModel userModel = new UserModel();
+    userModel.username = bloc.email;
+    userModel.password = bloc.password;
     print('================');
     print('Email ${bloc.email}');
     print('Password ${bloc.password}');
     print('==============');
-    cinemaService.registrarUser(user).then((value) {
-      if(value == 'correcto'){
-      AlertDialogCustom.showAlert(context, 'Se registro un usuario administrador.');
-      }
-      
-      return value;
-    });
-    
+    bloc.registrarUser(context, userModel);
   }
 
   Widget _crearBoton(RegistroBloc bloc) {
@@ -98,7 +87,7 @@ class RegistroPage extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return RaisedButton(
             child: Container(
-              child: Text('Registro'),
+              child: Text('Aceptar'),
               padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
             ),
             shape: RoundedRectangleBorder(
@@ -106,17 +95,17 @@ class RegistroPage extends StatelessWidget {
             elevation: 0.0,
             color: Colors.deepPurple,
             textColor: Colors.white,
-            onPressed: snapshot.hasData ? () => _registrar(bloc, context) : null,
+            onPressed:
+                snapshot.hasData ? () => _registrar(bloc, context) : null,
           );
         });
   }
 
-
   Widget _loginForm(BuildContext context) {
     final bloc = Provider.ofRegistro(context);
     final size = MediaQuery.of(context).size;
-      //Navigator.pushReplacementNamed(context, 'home');
-      
+    //Navigator.pushReplacementNamed(context, 'home');
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -159,12 +148,6 @@ class RegistroPage extends StatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
-  onTap: () {
-       Navigator.pushReplacementNamed(context, 'login');
-  },
-  child: Text("Login"),
-),
           const Divider(
             color: Colors.black,
             height: 20,
@@ -172,12 +155,6 @@ class RegistroPage extends StatelessWidget {
             indent: 20,
             endIndent: 0,
           ),
-                  GestureDetector(
-  onTap: () {
-       Navigator.pushReplacementNamed(context, 'recuperacion');
-  },
-  child: Text("¿Olvido la contraseña?"),
-),
           SizedBox(
             height: 100.0,
           )

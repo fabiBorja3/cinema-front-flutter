@@ -1,11 +1,18 @@
 import 'dart:async';
 
+import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/blocs/validators.dart';
+import 'package:cinema/src/models/api_response.dart';
+import 'package:cinema/src/models/user_model.dart';
+import 'package:cinema/src/repository/cinema_api_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
 class RegistroBloc with Validators {
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
+    final _repository = CinemaApiRepository();
+
 
 //Recuperar datos
   Stream<String> get emailStream =>
@@ -25,7 +32,18 @@ class RegistroBloc with Validators {
   String get email => _emailController.value;
   String get password => _passwordController.value;
 
-  dispose() {
+  void registrarUser(BuildContext context, UserModel userModel) async{
+    var apiResponse = await _repository.registrarUser(userModel);
+
+      if (apiResponse.statusResponse == 200) {
+        AlertDialogCustom.showAlert(context, 'Se ingreso un administrador.');
+      } else {
+        AlertDialogCustom.showAlert(context, 'Existe un problema con la creacion del administrador.');
+      }
+
+  }
+
+  void dispose() {
     _emailController?.close();
     _passwordController?.close();
   }

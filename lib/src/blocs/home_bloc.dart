@@ -1,37 +1,25 @@
-
 import 'dart:async';
+import 'dart:convert';
+import 'package:cinema/src/Utils/alert_dialog.dart';
+import 'package:cinema/src/models/api_response.dart';
+import 'package:cinema/src/models/movie_model.dart';
+import 'package:cinema/src/repository/cinema_api_repository.dart';
+import 'package:flutter/material.dart';
 
-import 'package:cinema/src/blocs/validators.dart';
-import 'package:rxdart/rxdart.dart';
+class HomeBloc {
+  final _repository = CinemaApiRepository();
 
-class HomeBloc with Validators {
+  Future<List<dynamic>> peliculasEnCine(BuildContext context) async {
+    var peliculas = [1, 2, 3];
+    ApiResponse apiResponse = await _repository.getEnCines();
 
-  /*
-  final _emailController = BehaviorSubject<String>();
-  final _passwordController = BehaviorSubject<String>();
-
-//Recuperar datos
-  Stream<String> get emailStream =>
-      _emailController.stream.transform(validarEmail);
-  Stream<String> get passwordStream =>
-      _passwordController.stream.transform(validarPassword);
-
-  Stream<bool> get formValidStream =>
-      Observable.combineLatest2(emailStream, passwordStream, (a, b) => true);
-
-  //Insertar valores
-  Function(String) get changeEmail => _emailController.sink.add;
-  Function(String) get changePassword => _passwordController.sink.add;
-
-  //Obtener ultimos valores ingresados
-
-  String get email => _emailController.value;
-  String get password => _passwordController.value;
-
-  dispose() {
-    _emailController?.close();
-    _passwordController?.close();
+    if (apiResponse.statusResponse == 200) {
+      final decodedData = json.decode(apiResponse.body);
+      Movies.fromJsonList(decodedData);
+      return decodedData;
+    } else {
+      AlertDialogCustom.showAlert(context, 'Problema al cargar las peliculas');
+      return peliculas;
+    }
   }
-
-  */
 }

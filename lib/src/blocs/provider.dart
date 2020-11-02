@@ -1,5 +1,7 @@
 import 'package:cinema/src/blocs/login_bloc.dart';
 export 'package:cinema/src/blocs/login_bloc.dart';
+import 'package:cinema/src/blocs/home_bloc.dart';
+export 'package:cinema/src/blocs/home_bloc.dart';
 import 'package:cinema/src/blocs/registro_bloc.dart';
 export 'package:cinema/src/blocs/registro_bloc.dart';
 import 'package:cinema/src/blocs/registro_personas_bloc.dart';
@@ -7,10 +9,10 @@ export 'package:cinema/src/blocs/registro_personas_bloc.dart';
 import 'package:cinema/src/blocs/cinema_bloc.dart';
 export 'package:cinema/src/blocs/cinema_bloc.dart';
 
-
 import 'package:flutter/material.dart';
 
 import 'genero_bloc.dart';
+
 
 class Provider extends InheritedWidget {
   final loginBloc = LoginBloc();
@@ -18,6 +20,7 @@ class Provider extends InheritedWidget {
   final registroPersonasBloc = RegistrarPersonasBloc();
   final registroGeneroBloc = RegistroGeneroBloc();
   final registroCinemaBloc = CinemaBloc();
+  final homeBloc = HomeBloc();
 
   Provider({Key key, Widget child}) : super(key: key, child: child);
 
@@ -28,6 +31,10 @@ class Provider extends InheritedWidget {
 
   static LoginBloc of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>().loginBloc;
+  }
+
+  static HomeBloc ofHome(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>().homeBloc;
   }
 
   static RegistroBloc ofRegistro(BuildContext context) {
@@ -49,7 +56,9 @@ class Provider extends InheritedWidget {
   }
 
   static RegistroGeneroBloc ofRegistroGenero(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<Provider>().registroGeneroBloc;
+    return context
+        .dependOnInheritedWidgetOfExactType<Provider>()
+        .registroGeneroBloc;
   }
 
   static CinemaBloc ofRegistroCinemas(BuildContext context) {
@@ -57,7 +66,6 @@ class Provider extends InheritedWidget {
         .dependOnInheritedWidgetOfExactType<Provider>()
         .registroCinemaBloc;
   }
-
 }
 /*
 

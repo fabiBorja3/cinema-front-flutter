@@ -1,4 +1,4 @@
-import 'package:cinema/src/Utils/alert_dialog.dart';
+
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/blocs/registro_personas_bloc.dart';
 import 'package:cinema/src/models/person_model.dart';
@@ -7,27 +7,24 @@ import 'package:cinema/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class PersonaPage extends StatelessWidget {
-  PersonModel person = PersonModel();
   //final userProvider = new UserProvider();
   final servicioApi = CinemaApiService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-          title: Text('Peliculas en cartelera'),
+        appBar: AppBar(
+          title: Text('Registro de Usuarios'),
           backgroundColor: Colors.deepPurple,
         ),
-      body: Stack(
-        children: <Widget>[
-          _crearFondo(context),
-          _loginForm(context),
-        ],
-      ),
-      drawer: menuWidget());
+        body: Stack(
+          children: <Widget>[
+            _crearFondo(context),
+            _loginForm(context),
+          ],
+        ),
+        drawer: menuWidget());
   }
-
-
 
   Widget _crearNombre(RegistrarPersonasBloc bloc) {
     return StreamBuilder(
@@ -53,7 +50,6 @@ class PersonaPage extends StatelessWidget {
     );
   }
 
-  
   Widget _crearApellido(RegistrarPersonasBloc bloc) {
     return StreamBuilder(
       stream: bloc.apellidoStream,
@@ -78,7 +74,7 @@ class PersonaPage extends StatelessWidget {
     );
   }
 
-    Widget _crearTelefono(RegistrarPersonasBloc bloc) {
+  Widget _crearTelefono(RegistrarPersonasBloc bloc) {
     return StreamBuilder(
       stream: bloc.telefonoStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -102,7 +98,7 @@ class PersonaPage extends StatelessWidget {
     );
   }
 
- Widget _crearDireccion(RegistrarPersonasBloc bloc) {
+  Widget _crearDireccion(RegistrarPersonasBloc bloc) {
     return StreamBuilder(
       stream: bloc.direccionStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -150,23 +146,14 @@ class PersonaPage extends StatelessWidget {
     );
   }
 
-  _registrarPersonas(RegistrarPersonasBloc bloc, BuildContext context) {
-    person.name = bloc.nombre;
-    person.lastname= bloc.apellido;
-    person.phone = bloc.telefono;
-    person.address = bloc.direccion;
-    person.mail = bloc.email;
-    servicioApi.registrarPersona(person).then((value) {
-      if(value == 'correcto'){
-      AlertDialogCustom.showAlert(context, 'Se registro una persona.');
-      }
-      
-      return value;
-    });
-
-    
-
-    
+  void _registrarPersonas(RegistrarPersonasBloc bloc, BuildContext context) {
+    var personModel = PersonModel();
+    personModel.name = bloc.nombre;
+    personModel.lastname = bloc.apellido;
+    personModel.phone = bloc.telefono;
+    personModel.address = bloc.direccion;
+    personModel.mail = bloc.email;
+    bloc.registrarUsuario(context, personModel);
 
     //userProvider.loginUser(context, user);
   }
@@ -177,7 +164,7 @@ class PersonaPage extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return RaisedButton(
             child: Container(
-              child: Text('Ingreso'),
+              child: Text('Aceptar'),
               padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
             ),
             shape: RoundedRectangleBorder(
@@ -185,7 +172,9 @@ class PersonaPage extends StatelessWidget {
             elevation: 0.0,
             color: Colors.deepPurple,
             textColor: Colors.white,
-            onPressed: snapshot.hasData ? () => _registrarPersonas(bloc, context) : null,
+            onPressed: snapshot.hasData
+                ? () => _registrarPersonas(bloc, context)
+                : null,
           );
         });
   }
@@ -219,7 +208,7 @@ class PersonaPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Ingreso',
+                  'Usuarios',
                   style: TextStyle(fontSize: 20.0),
                 ),
                 SizedBox(
@@ -237,11 +226,11 @@ class PersonaPage extends StatelessWidget {
                 SizedBox(
                   height: 60.0,
                 ),
-                 _crearDireccion(bloc),
+                _crearDireccion(bloc),
                 SizedBox(
                   height: 60.0,
                 ),
-                 _crearEmail(bloc),
+                _crearEmail(bloc),
                 SizedBox(
                   height: 60.0,
                 ),
@@ -256,7 +245,6 @@ class PersonaPage extends StatelessWidget {
             indent: 20,
             endIndent: 0,
           ),
-
           SizedBox(
             height: 100.0,
           )

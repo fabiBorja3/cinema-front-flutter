@@ -1,13 +1,9 @@
-import 'package:cinema/src/Utils/alert_dialog.dart';
+
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/models/user_model.dart';
-import 'package:cinema/src/services/cinema_api_services.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
-  UserModel user = UserModel();
-  //final userProvider = new UserProvider();
-  final servicioApi = CinemaApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -68,26 +64,15 @@ class LoginPage extends StatelessWidget {
         });
   }
 
-  _login(LoginBloc bloc, BuildContext context) {
+  void _login(LoginBloc bloc, BuildContext context) {
+    var user = UserModel();
     user.username = bloc.email;
     user.password = bloc.password;
     print('================');
     print('Email ${bloc.email}');
     print('Password ${bloc.password}');
     print('==============');
-    servicioApi.getLogin(user).then((value) {
-      if(value == 'invalido'){
-      AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
-      }else{
-Navigator.pushReplacementNamed(context, 'home');
-      }
-      
-      return value;
-    });
-
-    
-
-    
+    bloc.getLogin(context, user);
 
     //userProvider.loginUser(context, user);
   }
@@ -158,7 +143,6 @@ Navigator.pushReplacementNamed(context, 'home');
               ],
             ),
           ),
-
           const Divider(
             color: Colors.black,
             height: 20,

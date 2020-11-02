@@ -1,11 +1,18 @@
 import 'dart:async';
 
+import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/blocs/validators.dart';
+import 'package:cinema/src/models/api_response.dart';
+import 'package:cinema/src/models/user_model.dart';
+import 'package:cinema/src/repository/cinema_api_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBloc with Validators {
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
+  final _repository = CinemaApiRepository();
 
 //Recuperar datos
   Stream<String> get emailStream =>
@@ -25,7 +32,21 @@ class LoginBloc with Validators {
   String get email => _emailController.value;
   String get password => _passwordController.value;
 
-  dispose() {
+  void getLogin(
+      BuildContext context, UserModel userModel) async {
+
+    var apiResponse = await _repository.getLogin(userModel);
+
+    if (apiResponse.statusResponse == 200) {
+      var session = FlutterSession();
+      await session.set('token', apiResponse.body);
+      Navigator.pushReplacementNamed(context, 'home');
+    } else {
+      AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
+    }
+  }
+
+  void dispose() {
     _emailController?.close();
     _passwordController?.close();
   }

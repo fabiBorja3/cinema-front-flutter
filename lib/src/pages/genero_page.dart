@@ -1,25 +1,31 @@
+
 import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/blocs/genero_bloc.dart';
 import 'package:cinema/src/blocs/provider.dart';
+import 'package:cinema/src/models/api_response.dart';
 import 'package:cinema/src/models/gender_model.dart';
 import 'package:cinema/src/services/cinema_api_services.dart';
+import 'package:cinema/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class GeneroPage extends StatelessWidget {
-  GeneroModel generoModel = GeneroModel();
   //final userProvider = new UserProvider();
   final servicioApi = CinemaApiService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Text('Registro de Generos'),
+          backgroundColor: Colors.deepPurple,
+        ),
       body: Stack(
         children: <Widget>[
           _crearFondo(context),
           _loginForm(context),
         ],
       ),
-    );
+       drawer: menuWidget());
   }
 
   Widget _crearGenero(RegistroGeneroBloc bloc) {
@@ -46,34 +52,24 @@ class GeneroPage extends StatelessWidget {
     );
   }
 
-
-
-  _registrarGenero(RegistroGeneroBloc bloc, BuildContext context) {
+  void _registrarGenero(RegistroGeneroBloc bloc, BuildContext context) {
+    var generoModel = GeneroModel();
     generoModel.name = bloc.nombre;
-    servicioApi.registrarGenero(generoModel).then((value) {
-      if(value == 'correcto'){
-      AlertDialogCustom.showAlert(context, 'Se registro correctamente el género.');
-      }
-      
-      return value;
-    });
+    bloc.registrarGenero(context, generoModel);
 
- 
   }
 
   Widget _crearBoton(BuildContext context, RegistroGeneroBloc bloc) {
-          return RaisedButton(
-            child: Container(
-              child: Text('Ingreso'),
-              padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-            ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
-            elevation: 0.0,
-            color: Colors.deepPurple,
-            textColor: Colors.white,
-            onPressed: () =>  _registrarGenero(bloc, context)
-          );
+    return RaisedButton(
+        child: Container(
+          child: Text('Aceptar'),
+          padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+        elevation: 0.0,
+        color: Colors.deepPurple,
+        textColor: Colors.white,
+        onPressed: () => _registrarGenero(bloc, context));
   }
 
   Widget _loginForm(BuildContext context) {
@@ -119,7 +115,6 @@ class GeneroPage extends StatelessWidget {
               ],
             ),
           ),
-
           const Divider(
             color: Colors.black,
             height: 20,

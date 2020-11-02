@@ -1,73 +1,33 @@
+
 import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/blocs/provider.dart';
-import 'package:cinema/src/pages/registro_page.dart';
-import 'package:cinema/src/services/cinema_api_services.dart';
+import 'package:cinema/src/models/api_response.dart';
+import 'package:cinema/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cinema/src/models/cinema_model.dart';
 import 'package:cinema/src/blocs/cinema_bloc.dart';
 
 class CinemaPage extends StatelessWidget {
-  CinemaModel cinemaModel = CinemaModel();
-  //final userProvider = new UserProvider();
-  final servicioApi = CinemaApiService();
+    //final userProvider = new UserProvider();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-         appBar: AppBar(
-          title: Text('Registrar Cinema'),
+        appBar: AppBar(
+          title: Text('Registrar Cinemas'),
           backgroundColor: Colors.deepPurple,
         ),
-      body: Stack(
-        children: <Widget>[
-          _crearFondo(context),
-          _loginForm(context),
-        ],
-      ),
-              drawer: Drawer(
-          child: ListView(
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(color: Colors.deepPurple),
-                child: Text(
-                  'MY APP',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Crear administradores"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'registro');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Registrar usuarios"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'registroPersona');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Registrar Cinema"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'RegistrarCinema');
-                },
-              ),
-               ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Ocupacion"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'OcuparCine');
-                },
-              )
-            ],
-          ),
-        ));
+        body: Stack(
+          children: <Widget>[
+            _crearFondo(context),
+            _loginForm(context),
+          ],
+        ),
+        drawer: menuWidget());
   }
 
-  Widget _crearDireccion(CinemaBloc bloc) { //
+  Widget _crearDireccion(CinemaBloc bloc) {
+    //
     return StreamBuilder(
       stream: bloc.addressStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -76,7 +36,7 @@ class CinemaPage extends StatelessWidget {
           child: TextField(
             //keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-                
+
                 //hintText: 'ejemplo@correo.com',
                 labelText: 'Digite la dirección',
                 errorText: snapshot.error,
@@ -88,7 +48,8 @@ class CinemaPage extends StatelessWidget {
     );
   }
 
-  Widget _crearNombreCinema(CinemaBloc bloc) { //cap total
+  Widget _crearNombreCinema(CinemaBloc bloc) {
+    //cap total
     return StreamBuilder(
       stream: bloc.nameStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -97,7 +58,7 @@ class CinemaPage extends StatelessWidget {
           child: TextField(
             //keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-                
+
                 //hintText: 'ejemplo@correo.com',
                 labelText: 'Digite el nombre',
                 errorText: snapshot.error,
@@ -108,11 +69,9 @@ class CinemaPage extends StatelessWidget {
       },
     );
   }
-  
-  
 
-
-  Widget _crearTelefono(CinemaBloc bloc) { //cap total
+  Widget _crearTelefono(CinemaBloc bloc) {
+    //cap total
     return StreamBuilder(
       stream: bloc.phoneStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -121,7 +80,7 @@ class CinemaPage extends StatelessWidget {
           child: TextField(
             //keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-                
+
                 //hintText: 'ejemplo@correo.com',
                 labelText: 'Digite el teléfono',
                 errorText: snapshot.error,
@@ -133,25 +92,22 @@ class CinemaPage extends StatelessWidget {
     );
   }
 
-
- _registrarCinema(CinemaBloc bloc, BuildContext context) {
+   void _registrarCinema(CinemaBloc bloc, BuildContext context) {
+    var cinemaModel = CinemaModel();
     cinemaModel.address = bloc.address;
     cinemaModel.name = bloc.name;
     cinemaModel.phone = bloc.phone;
+    var apiResponse = bloc.registrarCinema(cinemaModel) as ApiResponse;
+
     
-   servicioApi.registrarCinema(cinemaModel).then((value) {
-      if(value == 'correcto'){
+    if (apiResponse.statusResponse == 200) {
       AlertDialogCustom.showAlert(context, 'Se ingreso un cinema.');
-     }
-      
-      return value;
-  });
+    } else {
+      AlertDialogCustom.showAlert(context, 'Existe un problema con la creacion del cinema.');
+    }
+  }
 
- }
-
-    
-
-    //userProvider.loginUser(context, user);
+  //userProvider.loginUser(context, user);
   //}
 
   Widget _crearBoton(CinemaBloc bloc) {
@@ -168,13 +124,11 @@ class CinemaPage extends StatelessWidget {
             elevation: 0.0,
             color: Colors.deepPurple,
             textColor: Colors.white,
-            onPressed: snapshot.hasData ? () => _registrarCinema(bloc, context) : null,
+            onPressed:
+                snapshot.hasData ? () => _registrarCinema(bloc, context) : null,
           );
         });
   }
-
-
-  
 
   Widget _loginForm(BuildContext context) {
     final bloc = Provider.ofRegistroCinemas(context);
@@ -215,25 +169,17 @@ class CinemaPage extends StatelessWidget {
                 SizedBox(
                   height: 60.0,
                 ),
-
                 _crearNombreCinema(bloc),
                 SizedBox(
                   height: 60.0,
                 ),
-                
                 _crearTelefono(bloc),
                 SizedBox(
                   height: 60.0,
                 ),
-
                 _crearBoton(bloc),
               ],
             ),
-            
-         
-
-
-
           ),
           const Divider(
             color: Colors.black,

@@ -1,232 +1,27 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:ffi';
 
+import 'package:cinema/src/models/api_response.dart';
 import 'package:cinema/src/models/gender_model.dart';
-import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/models/person_model.dart';
 import 'package:cinema/src/models/user_model.dart';
 import 'package:cinema/src/models/cinema_model.dart';
-import 'package:flutter_session/flutter_session.dart';
-import 'package:http/http.dart' as http;
+import 'package:cinema/src/services/cinema_api_services.dart';
 
 class CinemaApiRepository {
-  final String _url = 'https://cinema-spring-boot-heroku.herokuapp.com/cinema';
-  //final String _url = 'http://cinema7.herokuapp.com/cinema';
 
-  Future<String> loginUser(UserModel user) async {
-    final url = '$_url/auth/token';
+  UserModel userModel;
+  CinemaApiService cinemaApiService = CinemaApiService();
 
-    //final response = await http.post(url, body: userModelToJson(user));
-    final response = await http
-        .post('$url/?username=${user.username}&password=${user.password}');
+  Future<ApiResponse> getLogin(UserModel userModel) => cinemaApiService.loginUser(userModel);
+  Future<ApiResponse> registrarUser(UserModel userModel) => cinemaApiService.registrarUser(userModel);
+  Future<ApiResponse> registrarPersona(PersonModel personModel) => cinemaApiService.registrarPersona(personModel);
+  Future<ApiResponse> registrarGenero(GeneroModel generoModel) => cinemaApiService.registrarGenero(generoModel);
+  Future<ApiResponse> registrarCinema(CinemaModel cinemaModel) => cinemaApiService.registrarCinema(cinemaModel);
 
-    if (response.body.contains('token')) {
-      return 'invalido';
-      //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
-    } else {
-      var session = FlutterSession();
-      await session.set('token', response.body);
-      //Navigator.pushReplacementNamed(context, 'home');
-    }
-
-    return response.body;
-  }
-
-  Future<String> registrarUser(UserModel user) async {
-    final url = '$_url/api/v1/user';
-    String token = await FlutterSession().get("token");
-    var data = {
-      'id': 'null',
-      'password': user.password,
-      'nickname': user.username,
-      'token': 1
-    };
-
-    //encode Map to JSON
-    var body = json.encode(data);
-    var response = await http.post(url,
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer $token',
-        },
-        body: body);
-
-    /* if (response.body.contains('token')) {
-      //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
-    } else {
-      var session = FlutterSession();
-      await session.set('token', response.body);
-      //Navigator.pushReplacementNamed(context, 'home');
-    } */
-
-   // return response.body;
-
-   if (response.body.contains('exception')) {
-      return 'invalido';
-    } else {
-       return 'correcto';
-    }
-  }
-
-  Future<String> registrarPersona(PersonModel person) async {
-    final url = '$_url/api/v1/person';
-    String token = await FlutterSession().get('token');
-    var data = {
-      'address': person.address,
-      'id': 0,
-      'lastname': person.lastname,
-      'mail': person.mail,
-      'name': person.name,
-      'phone': person.phone
-    };
-
-    //encode Map to JSON
-    var body = json.encode(data);
-    var response = await http.post(url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: body);
-
-    /* if (response.body.contains('token')) {
-      //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
-    } else {
-      var session = FlutterSession();
-      await session.set('token', response.body);
-      //Navigator.pushReplacementNamed(context, 'home');
-    } */
-
-    if (response.body.contains('exception')) {
-      return 'invalido';
-    } else {
-       return 'correcto';
-    }
-
-    //return response.body;
-  }
-
-    Future<String> registrarGenero(GeneroModel generoModel) async {
-    final url = '$_url/api/v1/gender';
-    String token = await FlutterSession().get('token');
-    var data = {
-      'id': 0,
-      'name': generoModel.name,
-    };
-
-    //encode Map to JSON
-    var body = json.encode(data);
-    var response = await http.post(url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: body);
-
-    /* if (response.body.contains('token')) {
-      //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
-    } else {
-      var session = FlutterSession();
-      await session.set('token', response.body);
-      //Navigator.pushReplacementNamed(context, 'home');
-    } */
-
-    //return response.body;
-    if (response.body.contains('exception')) {
-      return 'invalido';
-    } else {
-       return 'correcto';
-    }
-  }
+  Future<dynamic> getEnCines() => cinemaApiService.getEnCines();
+  Future<dynamic> getPelicula(int id) => cinemaApiService.getPelicula(id);
 
 
 
-
-  Future<String> getPassword(UserModel user) async {
-    final url = '$_url/token';
-
-    //final response = await http.post(url, body: userModelToJson(user));
-    final response = await http
-        .post('$url/?username=${user.username}&password=${user.password}');
-
-    if (response.body.contains('token')) {
-      //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
-    } else {
-      var session = FlutterSession();
-      await session.set('token', response.body);
-      //Navigator.pushReplacementNamed(context, 'home');
-    }
-
-    return response.body;
-  }
-
-  Future<String> updatePassword(UserModel user) async {
-    final url = '$_url/token';
-
-    //final response = await http.post(url, body: userModelToJson(user));
-    final response = await http
-        .post('$url/?username=${user.username}&password=${user.password}');
-
-    if (response.body.contains('token')) {
-      //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
-    } else {
-      var session = FlutterSession();
-      await session.set('token', response.body);
-      //Navigator.pushReplacementNamed(context, 'home');
-    }
-
-    return response.body;
-  }
-
-  Future<List<dynamic>> getEnCines() async {
-    final url = '$_url/api/v1/movie/';
-    String token = await FlutterSession().get("token");
-    //final response = await http.post(url, body: userModelToJson(user));
-    final response = await http.get(url, headers: {
-      HttpHeaders.contentTypeHeader: "application/json",
-      HttpHeaders.authorizationHeader: "Bearer $token"
-    });
-    final decodedData = json.decode(response.body);
-
-    Movies.fromJsonList(decodedData);
-    return decodedData;
-  }
-
-  Future<dynamic> getPelicula(int id) async {
-    final url = '$_url/api/v1/movie/$id';
-    String token = await FlutterSession().get("token");
-    //final response = await http.post(url, body: userModelToJson(user));
-    final response = await http.get(url, headers: {
-      HttpHeaders.contentTypeHeader: "application/json",
-      HttpHeaders.authorizationHeader: "Bearer $token"
-    });
-    final decodedData = json.decode(response.body);
-
-    return decodedData;
-  }
-
-  Future<String> registrarCinema(CinemaModel cinema) async {
-    final url = '$_url/api/v1/cinema';
-    String token = await FlutterSession().get("token");
-    var data = {  
-      'address' : cinema.address,
-      'id': 0,
-      'name': cinema.name,
-      'phone' : cinema.phone,
-      'id_city' : 1
-    };
  
-    //encode Map to JSON
-    var body = json.encode(data);
-    var response = await http.post(url,
-        headers: {"Content-Type": "application/json",
-                  'Authorization': 'Bearer $token',}, body: body);
- 
-    if (response.body.contains('exception')) {
-      return 'invalido';
-    } else {
-       return 'correcto';
-    }
-
-  }
 }
