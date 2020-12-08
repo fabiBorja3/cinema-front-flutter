@@ -13,7 +13,7 @@ class CinemaApiRepository {
   CinemaApiService cinemaApiService = CinemaApiService();
 
   Future<ApiResponse> getLogin(UserModel userModel) => cinemaApiService.loginUser(userModel);
-  Future<ApiResponse> registrarUser(UserModel userModel) => cinemaApiService.registrarUser(userModel);
+  Future<ApiResponse> registrarUser(UserModel userModel) => cinemaApiService.registerUser(userModel);
   Future<ApiResponse> registrarPersona(PersonModel personModel) => cinemaApiService.registrarPersona(personModel);
   Future<ApiResponse> registrarGenero(GeneroModel generoModel) => cinemaApiService.registrarGenero(generoModel);
   Future<ApiResponse> registrarCinema(CinemaModel cinemaModel) => cinemaApiService.registrarCinema(cinemaModel);

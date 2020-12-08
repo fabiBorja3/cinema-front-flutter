@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/blocs/validators.dart';
-import 'package:cinema/src/models/api_response.dart';
 import 'package:cinema/src/models/user_model.dart';
 import 'package:cinema/src/repository/cinema_api_repository.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +31,7 @@ class LoginBloc with Validators {
   String get email => _emailController.value;
   String get password => _passwordController.value;
 
-  void getLogin(
-      BuildContext context, UserModel userModel) async {
+  void getLogin(BuildContext context, UserModel userModel) async {
 
     var apiResponse = await _repository.getLogin(userModel);
 

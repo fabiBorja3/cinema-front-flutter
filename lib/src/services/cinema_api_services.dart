@@ -10,10 +10,23 @@ import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
 
 class CinemaApiService {
-  final String _url = 'https://cinema-spring-boot-heroku.herokuapp.com/cinema';
-  //final String _url = 'http://cinema7.herokuapp.com/cinema';
+  //final String _url = 'https://cinema-spring-boot-heroku.herokuapp.com/cinema';
+  final String _url = 'http://192.168.1.2:9040/actives/api/v1';
 
-  Future<ApiResponse> loginUser(UserModel user) async {
+ Future<ApiResponse> loginUser(UserModel user) async {
+    final url = '$_url/loginUser';
+    var apiResponse = ApiResponse(statusResponse: 0);
+
+    //final response = await http.post(url, body: userModelToJson(user));
+    final response = await http
+        .get('$url/?nickname=${user.username}&password=${user.password}');
+
+    apiResponse.statusResponse = response.statusCode;
+    apiResponse.body = response.body;
+    return apiResponse;
+  }
+
+    Future<ApiResponse> registerUser(UserModel user) async {
     final url = '$_url/auth/token';
     var apiResponse = ApiResponse(statusResponse: 0);
 
@@ -24,50 +37,8 @@ class CinemaApiService {
     apiResponse.statusResponse = response.statusCode;
     apiResponse.body = response.body;
     return apiResponse;
-/*
-    if (response.body.contains('token')) {
-      return 'invalido';
-      //AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
-    } else {
-      var session = FlutterSession();
-      await session.set('token', response.body);
-      //Navigator.pushReplacementNamed(context, 'home');
-    }
-**/
   }
 
-  Future<ApiResponse> registrarUser(UserModel user) async {
-    final url = '$_url/api/v1/user';
-    var apiResponse = ApiResponse(statusResponse: 0);
-    String token = await FlutterSession().get('token');
-    var data = {
-      'id': 'null',
-      'password': user.password,
-      'nickname': user.username,
-      'token': 1
-    };
-
-    //encode Map to JSON
-    var body = json.encode(data);
-    var response = await http.post(url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: body);
-
-    apiResponse.statusResponse = response.statusCode;
-    apiResponse.body = response.body;
-    return apiResponse;
-/*
-    if (response.body.contains('exception')) {
-      return 'invalido';
-    } else {
-      return 'correcto';
-    }
-
-    */
-  }
 
   Future<ApiResponse> registrarPersona(PersonModel person) async {
     final url = '$_url/api/v1/person';
