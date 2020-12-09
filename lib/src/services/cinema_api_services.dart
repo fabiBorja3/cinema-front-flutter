@@ -1,6 +1,8 @@
 import 'dart:convert';
+//import 'dart:html';
 import 'dart:io';
 
+//import 'package:cinema/src/models/actor_model.dart';
 import 'package:cinema/src/models/api_response.dart';
 import 'package:cinema/src/models/gender_model.dart';
 import 'package:cinema/src/models/movie_model.dart';
@@ -11,7 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cinema/src/models/actor_model.dart';
 import 'package:http/http.dart' as http;
+
 
 class CinemaApiService {
   var _url = "";
@@ -98,14 +102,17 @@ class CinemaApiService {
   Future<List<Movie>> getEnCines() async {
     List<Movie> movieList = new List();
     await FirebaseFirestore.instance
-        .collection('Movie')
+        .collection('Movie')        
         .get()
         .then((QuerySnapshot snapshot) {
       snapshot.docs.forEach((data) {
         if (data != null) {
           Movie movie = new Movie();
-
+          Map actores;
+         // String act;
+       
           movie.id = data.id;
+          
           movie.titulo = data.get('titulo').toString();
           movie.portada = data.get('portada').toString();
           movie.descripcion = data.get('descripcion').toString();
@@ -113,6 +120,20 @@ class CinemaApiService {
           movie.genero = data.get('genero').toString();
           movie.idioma = data.get('idioma').toString();
           movie.sala = data.get('sala').toString();
+          //movie.nombre_actor = data.get('actor').toString();
+          //actores=data.get('actor');
+
+          //Actor act = new Actor();
+
+          //act.nombre=actores['nombre1'].toString();
+          //act.foto =actores['img1'].toString();
+
+          movie.actor=data.get('actor');
+          /* movie.actor['nombre1'].toString();
+          movie.actor['img1'].toString(); */
+
+         //movie.nombre_actor=data.data().keys.map((e) => 'nombre1').toString();
+
           movieList.add(movie);
         }
       });
@@ -120,6 +141,19 @@ class CinemaApiService {
 
     return movieList;
   }
+
+ 
+
+
+
+
+
+
+
+
+
+
+ 
 
   Future<dynamic> getPelicula(String id) async {
     await FirebaseFirestore.instance

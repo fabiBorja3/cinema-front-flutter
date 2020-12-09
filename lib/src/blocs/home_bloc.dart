@@ -12,7 +12,8 @@ class HomeBloc {
   Future<List<Movie>> peliculasEnCine(BuildContext context) async {
     List<Movie> moviesList = await _repository.getEnCines();
 
-    if (moviesList.isNotEmpty) {
+    if (moviesList.
+    isNotEmpty) {
       return moviesList;
     } else {
       AlertDialogCustom.showAlert(context, 'Problema al cargar las peliculas');

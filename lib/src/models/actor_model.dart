@@ -20,29 +20,14 @@ class Movies {
 }
 */
 
-class Movie {
-  String id;
-  String titulo;
-  String portada;
-  String descripcion;
-  String duracion;
-  String idioma;
-  String genero;
-  String sala;
-  Map actor;
+class Actor {
+  String nombre;
+  String foto;
 
-  Movie({
-    this.id,
-    this.titulo,
-    this.portada,
-    this.descripcion,
-    this.duracion,
-    this.idioma,
-    this.genero,
-    this.sala,    
-    this.actor
+  Actor({
+    this.nombre,
+    this.foto
   });
-
 
 /*
   MovieModel.fromJsonMap(Map<String, dynamic> son) {

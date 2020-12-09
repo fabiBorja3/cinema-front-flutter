@@ -1,4 +1,5 @@
 import 'package:cinema/src/models/movie_model.dart';
+import 'package:cinema/src/models/actor_model.dart';
 import 'package:flutter/material.dart';
 
 class PeliculaPage extends StatelessWidget {
@@ -45,7 +46,9 @@ class PeliculaPage extends StatelessWidget {
                 _posterTitulo( context ),
                 _descripcion( movie.id ),
                 _descripcion( movie.titulo ),
-                _descripcion( movie.descripcion ),                
+                _descripcion( movie.descripcion ),                        
+                _crearActoresPageView(),
+                _crearBoton(),
               ]
             ),
           )
@@ -121,7 +124,7 @@ Widget _posterTitulo(BuildContext context){
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(movie.titulo, style: Theme.of(context).textTheme.title, overflow: TextOverflow.ellipsis ),
-                Text(movie.titulo, style: Theme.of(context).textTheme.subhead, overflow: TextOverflow.ellipsis ),
+                Text(movie.genero, style: Theme.of(context).textTheme.subhead, overflow: TextOverflow.ellipsis ),
                 Row(
                   children: <Widget>[
                     Icon( Icons.star_border ),
@@ -138,7 +141,67 @@ Widget _posterTitulo(BuildContext context){
   }
    
 
+  
 
 
+ Widget _crearActoresPageView() {
+
+    return SizedBox(
+      height: 200.0,
+      child: PageView.builder(
+        pageSnapping: false,
+        controller: PageController(
+          viewportFraction: 0.3,
+          initialPage: 1
+        ),
+        itemCount: 2,
+        itemBuilder: (context, i) =>_actorTarjeta(),
+      ),
+    );
+
+  }   
+
+ Widget _actorTarjeta() {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: FadeInImage(
+              image: NetworkImage( movie.actor['img1'] ),
+              placeholder: AssetImage('assets/img/no-image.jpg'),
+              height: 150.0,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Text(
+            movie.actor['nombre1'],
+            overflow: TextOverflow.ellipsis,
+          )
+        ],
+      )
+    );
+  }
+
+
+
+   Widget _crearBoton() {
+    return StreamBuilder(
+        //stream: bloc.formValidStream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return RaisedButton(
+            child: Container(
+              child: Text('Ingreso'),
+              padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+            elevation: 0.0,
+            color: Colors.deepPurple,
+            textColor: Colors.white,
+           // onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
+          );
+        });
+  }
 
 }
