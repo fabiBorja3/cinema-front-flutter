@@ -3,19 +3,19 @@ import 'dart:io';
 
 import 'package:cinema/src/models/api_response.dart';
 import 'package:cinema/src/models/gender_model.dart';
+import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/models/person_model.dart';
 import 'package:cinema/src/models/user_model.dart';
 import 'package:cinema/src/models/cinema_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
 
 class CinemaApiService {
-
   var _url = "";
   Future<ApiResponse> loginUser(UserModel user) async {
-
     var apiResponse = ApiResponse(statusResponse: 0);
     await FirebaseFirestore.instance
         .collection('User')
@@ -94,29 +94,32 @@ class CinemaApiService {
     */
   }
 
-  Future<ApiResponse> getEnCines() async {
-    var apiResponse = ApiResponse(statusResponse: 0);
+  Future<List<Movie>> getEnCines() async {
+    List<Movie> movieList = new List();
     await FirebaseFirestore.instance
         .collection('Movie')
         .get()
         .then((QuerySnapshot snapshot) {
       snapshot.docs.forEach((data) {
         if (data != null) {
+          Movie movie = new Movie();
 
-          /*
-          print(data.get('nickname').toString());
-          if (user.password == data.get('password')) {
-            apiResponse.body = 'true';
-          } else {
-            apiResponse.body = 'false';
-          }
-          */
+          movie.id = data.id;
+          movie.titulo = data.get('titulo').toString();
+          movie.portada = data.get('portada').toString();
+          movie.duracion = data.get('duracion').toString();
+          movie.genero = data.get('genero').toString();
+          movie.idioma = data.get('idioma').toString();
+          movie.sala = data.get('sala').toString();
+          movieList.add(movie);
         }
       });
     });
+
+    return movieList;
   }
 
-  Future<dynamic> getPelicula(int id) async {
+  Future<dynamic> getPelicula(String id) async {
     final url = '$_url/api/v1/movie/$id';
     String token = await FlutterSession().get('token');
     //final response = await http.post(url, body: userModelToJson(user));

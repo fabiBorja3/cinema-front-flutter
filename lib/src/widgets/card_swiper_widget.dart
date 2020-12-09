@@ -1,13 +1,14 @@
 import 'package:cinema/src/Utils/alert_dialog.dart';
+import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/services/cinema_api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class CardSwiper extends StatelessWidget {
-  final List<dynamic> peliculas;
+  final List<Movie> movies;
   final cinemaApi = CinemaApiService();
 
-  CardSwiper({@required this.peliculas});
+  CardSwiper({@required this.movies});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +26,10 @@ class CardSwiper extends StatelessWidget {
           return ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: FadeInImage(
-                  image: NetworkImage(peliculas[index]['poster']),
+                  image: NetworkImage(movies[index].portada),
                   placeholder: AssetImage('assets/img/no-image.jpg')));
         },
-        itemCount: peliculas.length,
+        itemCount: movies.length,
         onTap: (index) {
           informacion(context, index);
           //AlertDialogCustom.showInfoPeliculas(context, homeProvider.getPelicula(peliculas[index]['id']));
@@ -41,7 +42,7 @@ class CardSwiper extends StatelessWidget {
 
   Future<void> informacion(BuildContext context, int index) async {
     print('Fetching user order...');
-    print(await cinemaApi.getPelicula(peliculas[index]['id']).then((value) {
+    print(await cinemaApi.getPelicula(movies[index].id).then((value) {
       AlertDialogCustom.showInfoPeliculas(context, value);
       return value;
     }));

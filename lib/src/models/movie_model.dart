@@ -20,17 +20,17 @@ class Movies {
 }
 */
 
-class MovieModel {
-  int id;
+class Movie {
+  String id;
   String titulo;
   String portada;
   String descripcion;
   String duracion;
   String idioma;
   String genero;
-  //Sala sala;
+  String sala;
 
-  MovieModel({
+  Movie({
     this.id,
     this.titulo,
     this.portada,
@@ -38,7 +38,7 @@ class MovieModel {
     this.duracion,
     this.idioma,
     this.genero,
-  //  this.sala,
+    this.sala,
   });
 
 /*

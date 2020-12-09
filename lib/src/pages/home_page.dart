@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   String token;
-  MovieModel user = MovieModel();
+  Movie user = Movie();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
         future: blocHome.peliculasEnCine(context),
         builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
           if (snapshot.hasData) {
-            return CardSwiper(peliculas: snapshot.data);
+            return CardSwiper(movies: snapshot.data);
           } else {
             return Container(
                 height: 400.0,
