@@ -31,7 +31,7 @@ class CardSwiper extends StatelessWidget {
         },
         itemCount: movies.length,
         onTap: (index) {
-          informacion(context, index);
+          informacion(context, movies[index]);
           //AlertDialogCustom.showInfoPeliculas(context, homeProvider.getPelicula(peliculas[index]['id']));
         },
         //pagination: new SwiperPagination(),
@@ -40,9 +40,9 @@ class CardSwiper extends StatelessWidget {
     );
   }
 
-  Future<void> informacion(BuildContext context, int index) async {
+  Future<void> informacion(BuildContext context, Movie movie) async {
     print('Fetching user order...');
-    print(await cinemaApi.getPelicula(movies[index].id).then((value) {
+    print(await cinemaApi.getPelicula(movie.id).then((value) {
       AlertDialogCustom.showInfoPeliculas(context, value);
       return value;
     }));

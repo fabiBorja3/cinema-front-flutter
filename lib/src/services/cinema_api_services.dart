@@ -17,10 +17,9 @@ class CinemaApiService {
   var _url = "";
   Future<ApiResponse> loginUser(UserModel user) async {
     var apiResponse = ApiResponse(statusResponse: 0);
-    await FirebaseFirestore.instance
-        .collection('User')
-        .get()
-        .then((QuerySnapshot snapshot) {
+    var dato = await FirebaseFirestore.instance
+        .collection('User').where('nickname',isEqualTo: user.username).get()
+        .then((snapshot) {
       snapshot.docs.forEach((data) {
         if (data != null) {
           print(data.get('nickname').toString());
@@ -120,16 +119,17 @@ class CinemaApiService {
   }
 
   Future<dynamic> getPelicula(String id) async {
-    final url = '$_url/api/v1/movie/$id';
-    String token = await FlutterSession().get('token');
-    //final response = await http.post(url, body: userModelToJson(user));
-    final response = await http.get(url, headers: {
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Bearer $token'
-    });
-    final decodedData = json.decode(response.body);
 
-    return decodedData;
+    await FirebaseFirestore.instance
+        .collection('Movie').where('_name_',isEqualTo: id)
+        .get()
+        .then((QuerySnapshot snapshot) {
+        snapshot.docs.forEach((data) {
+        if (data != null) {
+          print(data.get('titulo').toString());
+        }
+      });
+    });
   }
 
   Future<ApiResponse> registrarCinema(CinemaModel cinema) async {
