@@ -18,7 +18,9 @@ class CinemaApiService {
   Future<ApiResponse> loginUser(UserModel user) async {
     var apiResponse = ApiResponse(statusResponse: 0);
     var dato = await FirebaseFirestore.instance
-        .collection('User').where('nickname',isEqualTo: user.username).get()
+        .collection('User')
+        .where('nickname', isEqualTo: user.username)
+        .get()
         .then((snapshot) {
       snapshot.docs.forEach((data) {
         if (data != null) {
@@ -106,6 +108,7 @@ class CinemaApiService {
           movie.id = data.id;
           movie.titulo = data.get('titulo').toString();
           movie.portada = data.get('portada').toString();
+          movie.descripcion = data.get('descripcion').toString();
           movie.duracion = data.get('duracion').toString();
           movie.genero = data.get('genero').toString();
           movie.idioma = data.get('idioma').toString();
@@ -119,12 +122,12 @@ class CinemaApiService {
   }
 
   Future<dynamic> getPelicula(String id) async {
-
     await FirebaseFirestore.instance
-        .collection('Movie').where('_name_',isEqualTo: id)
+        .collection('Movie')
+        .where('_name_', isEqualTo: id)
         .get()
         .then((QuerySnapshot snapshot) {
-        snapshot.docs.forEach((data) {
+      snapshot.docs.forEach((data) {
         if (data != null) {
           print(data.get('titulo').toString());
         }

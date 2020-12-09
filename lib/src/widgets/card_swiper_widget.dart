@@ -1,5 +1,6 @@
 import 'package:cinema/src/Utils/alert_dialog.dart';
 import 'package:cinema/src/models/movie_model.dart';
+import 'package:cinema/src/pages/pelicula_page.dart';
 import 'package:cinema/src/services/cinema_api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -40,12 +41,15 @@ class CardSwiper extends StatelessWidget {
     );
   }
 
-  Future<void> informacion(BuildContext context, Movie movie) async {
+  void informacion(BuildContext context, Movie movie) async {
     print('Fetching user order...');
-    print(await cinemaApi.getPelicula(movie.id).then((value) {
-      AlertDialogCustom.showInfoPeliculas(context, value);
-      return value;
-    }));
+          Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            PeliculaPage(movie: movie),
+      ),
+    );
   }
   // "http://via.placeholder.com/350x150",
 }
