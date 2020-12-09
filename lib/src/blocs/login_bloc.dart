@@ -32,16 +32,19 @@ class LoginBloc with Validators {
   String get password => _passwordController.value;
 
   void getLogin(BuildContext context, UserModel userModel) async {
-
     var apiResponse = await _repository.getLogin(userModel);
 
-    if (apiResponse.statusResponse == 200) {
-      var session = FlutterSession();
-      await session.set('token', apiResponse.body);
+    if (apiResponse.body == 'true') {
+      dispose();
       Navigator.pushReplacementNamed(context, 'home');
     } else {
       AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
     }
+  }
+
+  void registro(BuildContext context) {
+      dispose();
+      Navigator.pushReplacementNamed(context, 'registro');
   }
 
   void dispose() {

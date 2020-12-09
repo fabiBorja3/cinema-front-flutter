@@ -150,6 +150,18 @@ class LoginPage extends StatelessWidget {
             indent: 20,
             endIndent: 0,
           ),
+          RaisedButton(
+            child: Container(
+              child: Text('Registrarse'),
+              padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+            elevation: 0.0,
+            color: Colors.deepPurple,
+            textColor: Colors.white,
+            onPressed: () => bloc.registro(context) ,
+            ),
           SizedBox(
             height: 100.0,
           )

@@ -35,10 +35,11 @@ class RegistroBloc with Validators {
   void registrarUser(BuildContext context, UserModel userModel) async{
     var apiResponse = await _repository.registrarUser(userModel);
 
-      if (apiResponse.statusResponse == 200) {
-        AlertDialogCustom.showAlert(context, 'Se ingreso un administrador.');
+      if (apiResponse.body != '') {
+      dispose();
+      Navigator.pushReplacementNamed(context, 'home');
       } else {
-        AlertDialogCustom.showAlert(context, 'Existe un problema con la creacion del administrador.');
+        AlertDialogCustom.showAlert(context, 'Existe un problema con la creacion del usuario.');
       }
 
   }

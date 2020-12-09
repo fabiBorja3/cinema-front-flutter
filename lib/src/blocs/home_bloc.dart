@@ -15,7 +15,7 @@ class HomeBloc {
 
     if (apiResponse.statusResponse == 200) {
       final decodedData = json.decode(apiResponse.body);
-      Movies.fromJsonList(decodedData);
+//      Movies.fromJsonList(decodedData);
       return decodedData;
     } else {
       AlertDialogCustom.showAlert(context, 'Problema al cargar las peliculas');

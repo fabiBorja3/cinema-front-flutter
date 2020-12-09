@@ -7,26 +7,36 @@ import 'package:cinema/src/models/person_model.dart';
 import 'package:cinema/src/models/user_model.dart';
 import 'package:cinema/src/models/cinema_model.dart';
 import 'package:flutter_session/flutter_session.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
 
 class CinemaApiService {
-  //final String _url = 'https://cinema-spring-boot-heroku.herokuapp.com/cinema';
-  final String _url = 'http://192.168.1.2:9040/actives/api/v1';
 
- Future<ApiResponse> loginUser(UserModel user) async {
-    final url = '$_url/loginUser';
+  var _url = "";
+  Future<ApiResponse> loginUser(UserModel user) async {
+
     var apiResponse = ApiResponse(statusResponse: 0);
+    await FirebaseFirestore.instance
+        .collection('User')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((data) {
+        if (data != null) {
+          print(data.get('nickname').toString());
+          if (user.password == data.get('password')) {
+            apiResponse.body = 'true';
+          } else {
+            apiResponse.body = 'false';
+          }
+        }
+      });
+    });
 
-    //final response = await http.post(url, body: userModelToJson(user));
-    final response = await http
-        .get('$url/?nickname=${user.username}&password=${user.password}');
-
-    apiResponse.statusResponse = response.statusCode;
-    apiResponse.body = response.body;
     return apiResponse;
   }
 
-    Future<ApiResponse> registerUser(UserModel user) async {
+  Future<ApiResponse> registerUser(UserModel user) async {
     final url = '$_url/auth/token';
     var apiResponse = ApiResponse(statusResponse: 0);
 
@@ -39,42 +49,16 @@ class CinemaApiService {
     return apiResponse;
   }
 
-
-  Future<ApiResponse> registrarPersona(PersonModel person) async {
-    final url = '$_url/api/v1/person';
+  Future<ApiResponse> registrarUsuario(UserModel user) async {
     var apiResponse = ApiResponse(statusResponse: 0);
-    String token = await FlutterSession().get('token');
-    var data = {
-      'address': person.address,
-      'id': 0,
-      'lastname': person.lastname,
-      'mail': person.mail,
-      'name': person.name,
-      'phone': person.phone
-    };
+    var ref = await FirebaseFirestore.instance
+        .collection('User')
+        .add({'nickname': user.username, 'password': user.password});
 
-    //encode Map to JSON
-    var body = json.encode(data);
-    var response = await http.post(url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: body);
+    print(ref.id);
+    apiResponse.body = ref.id;
 
-    apiResponse.statusResponse = response.statusCode;
-    apiResponse.body = response.body;
     return apiResponse;
-
-/*
-    if (response.body.contains('exception')) {
-      return 'invalido';
-    } else {
-      return 'correcto';
-    }
-
-*/
-    //return response.body;
   }
 
   Future<ApiResponse> registrarGenero(GeneroModel generoModel) async {
@@ -111,21 +95,25 @@ class CinemaApiService {
   }
 
   Future<ApiResponse> getEnCines() async {
-    final url = '$_url/api/v1/movie/';
     var apiResponse = ApiResponse(statusResponse: 0);
-    String token = await FlutterSession().get('token');
-    //final response = await http.post(url, body: userModelToJson(user));
-    final response = await http.get(url, headers: {
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Bearer $token'
+    await FirebaseFirestore.instance
+        .collection('Movie')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((data) {
+        if (data != null) {
+
+          /*
+          print(data.get('nickname').toString());
+          if (user.password == data.get('password')) {
+            apiResponse.body = 'true';
+          } else {
+            apiResponse.body = 'false';
+          }
+          */
+        }
       });
-
-    apiResponse.statusResponse = response.statusCode;
-    apiResponse.body = response.body;
-    return apiResponse;
-
-
-    
+    });
   }
 
   Future<dynamic> getPelicula(int id) async {
