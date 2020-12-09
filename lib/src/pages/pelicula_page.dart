@@ -75,7 +75,7 @@ class PeliculaPage extends StatelessWidget {
         background: FadeInImage(
            image: NetworkImage(movie.portada),
            placeholder:  AssetImage('assets/img/loading.gif'),
-           
+           fit: BoxFit.cover,
           
         ),
       ),
