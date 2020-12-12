@@ -11,14 +11,12 @@ export 'package:cinema/src/blocs/cinema_bloc.dart';
 
 import 'package:flutter/material.dart';
 
-import 'genero_bloc.dart';
 
 
 class Provider extends InheritedWidget {
   final loginBloc = LoginBloc();
   final registroBloc = RegistroBloc();
   final registroPersonasBloc = RegistrarPersonasBloc();
-  final registroGeneroBloc = RegistroGeneroBloc();
   final registroCinemaBloc = CinemaBloc();
   final homeBloc = HomeBloc();
 
@@ -53,12 +51,6 @@ class Provider extends InheritedWidget {
     return context
         .dependOnInheritedWidgetOfExactType<Provider>()
         .registroPersonasBloc;
-  }
-
-  static RegistroGeneroBloc ofRegistroGenero(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<Provider>()
-        .registroGeneroBloc;
   }
 
   static CinemaBloc ofRegistroCinemas(BuildContext context) {

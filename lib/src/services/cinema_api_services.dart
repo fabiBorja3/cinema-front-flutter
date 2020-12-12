@@ -1,21 +1,16 @@
 import 'dart:convert';
-//import 'dart:html';
-import 'dart:io';
-
 //import 'package:cinema/src/models/actor_model.dart';
+import 'package:cinema/src/models/Sala.dart';
 import 'package:cinema/src/models/api_response.dart';
+import 'package:cinema/src/models/cine.dart';
 import 'package:cinema/src/models/gender_model.dart';
 import 'package:cinema/src/models/movie_model.dart';
-import 'package:cinema/src/models/person_model.dart';
 import 'package:cinema/src/models/user_model.dart';
 import 'package:cinema/src/models/cinema_model.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cinema/src/models/actor_model.dart';
 import 'package:http/http.dart' as http;
-
 
 class CinemaApiService {
   var _url = "";
@@ -66,35 +61,54 @@ class CinemaApiService {
     return apiResponse;
   }
 
-  Future<ApiResponse> registrarGenero(GeneroModel generoModel) async {
-    final url = '$_url/api/v1/gender';
-    var apiResponse = ApiResponse(statusResponse: 0);
-    String token = await FlutterSession().get('token');
-    var data = {
-      'id': 0,
-      'name': generoModel.name,
-    };
-
-    //encode Map to JSON
-    var body = json.encode(data);
-    var response = await http.post(url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: body);
-
-    apiResponse.statusResponse = response.statusCode;
-    apiResponse.body = response.body;
-    return apiResponse;
+  Future<List<Sala>> getInformacionCinema() async {
+    var salasList = <Sala>[];
+    await FirebaseFirestore.instance
+        .collection('Sala')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((data) {
+        var sala = Sala();
+        sala.id = data.id;
+        sala.nombre = data.get('nombre');
+        sala.sillas = data.get('sillas');
+        sala.libres = data.get('libres');
+        sala.ocupadas = data.get('ocupadas');
+        sala.cine = data.get('cine');
+        salasList.add(sala);
+      });
+    });
 
 /*
-    //return response.body;
-    if (response.body.contains('exception')) {
-      return 'invalido';
-    } else {
-      return 'correcto';
+    var i = 0;
+    for (var item in cineList) {
+      item.cine.get().then((value2) {
+        var cine = Cine();
+        cine.id = value2.id;
+        cine.nombre = value2.get('nombre');
+        cine.direccion = value2.get('direccion');
+        cine.salas = value2.get('salas');
+        salasList[i].cine = cine;
+        i++;
+      });
     }
+
+    */
+
+    return salasList;
+
+/*
+    await FirebaseFirestore.instance
+        .collection('Sala')
+        .doc('V60mTpj2qixxxajxnYLP')
+        .get()
+        .then((value) {
+      var collection = value.get('cine');
+
+      collection.get().then((value2) {
+        print(value2.get('nombre'));
+      });
+    });
 
     */
   }
@@ -102,17 +116,13 @@ class CinemaApiService {
   Future<List<Movie>> getEnCines() async {
     List<Movie> movieList = new List();
     await FirebaseFirestore.instance
-        .collection('Movie')        
+        .collection('Movie')
         .get()
         .then((QuerySnapshot snapshot) {
       snapshot.docs.forEach((data) {
         if (data != null) {
           Movie movie = new Movie();
-          Map actores;
-         // String act;
-       
           movie.id = data.id;
-          
           movie.titulo = data.get('titulo').toString();
           movie.portada = data.get('portada').toString();
           movie.descripcion = data.get('descripcion').toString();
@@ -120,20 +130,7 @@ class CinemaApiService {
           movie.genero = data.get('genero').toString();
           movie.idioma = data.get('idioma').toString();
           movie.sala = data.get('sala').toString();
-          //movie.nombre_actor = data.get('actor').toString();
-          //actores=data.get('actor');
-
-          //Actor act = new Actor();
-
-          //act.nombre=actores['nombre1'].toString();
-          //act.foto =actores['img1'].toString();
-
-          movie.actor=data.get('actor');
-          /* movie.actor['nombre1'].toString();
-          movie.actor['img1'].toString(); */
-
-         //movie.nombre_actor=data.data().keys.map((e) => 'nombre1').toString();
-
+          movie.actor = data.get('actor');
           movieList.add(movie);
         }
       });
@@ -141,19 +138,6 @@ class CinemaApiService {
 
     return movieList;
   }
-
- 
-
-
-
-
-
-
-
-
-
-
- 
 
   Future<dynamic> getPelicula(String id) async {
     await FirebaseFirestore.instance

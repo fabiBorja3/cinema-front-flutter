@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:cinema/src/models/Sala.dart';
 import 'package:cinema/src/models/api_response.dart';
 import 'package:cinema/src/models/gender_model.dart';
 import 'package:cinema/src/models/person_model.dart';
@@ -13,9 +14,9 @@ class CinemaApiRepository {
   CinemaApiService cinemaApiService = CinemaApiService();
 
   Future<ApiResponse> getLogin(UserModel userModel) => cinemaApiService.loginUser(userModel);
+  Future<List<Sala>> getSalas() => cinemaApiService.getInformacionCinema();
   Future<ApiResponse> registrarUser(UserModel userModel) => cinemaApiService.registrarUsuario(userModel);
   Future<ApiResponse> registrarPersona(PersonModel personModel) => cinemaApiService.registrarUsuario(userModel);
-  Future<ApiResponse> registrarGenero(GeneroModel generoModel) => cinemaApiService.registrarGenero(generoModel);
   Future<ApiResponse> registrarCinema(CinemaModel cinemaModel) => cinemaApiService.registrarCinema(cinemaModel);
 
   Future<dynamic> getEnCines() => cinemaApiService.getEnCines();
