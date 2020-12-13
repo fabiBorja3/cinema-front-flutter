@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:cinema/src/blocs/home_bloc.dart';
 import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/models/Sala.dart';
+import 'package:cinema/src/models/cine.dart';
 import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/widgets/card_swiper_widget.dart';
 import 'package:cinema/src/widgets/menu_widget.dart';
@@ -12,10 +13,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  final Cine cine;
+  HomePage({Key key, @required this.cine}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(cine);
 }
 
 class _HomePageState extends State<HomePage> {
@@ -24,6 +26,9 @@ class _HomePageState extends State<HomePage> {
   Sala _selectedSala;
   List<Sala> salaList;
   var blocHome;
+  Cine cine;
+
+  _HomePageState(this.cine);
 
   @override
   void initState() {
@@ -43,9 +48,13 @@ class _HomePageState extends State<HomePage> {
     final blocLogin = Provider.of(context);
     final blocHome = Provider.ofHome(context);
 
-      List<DropdownMenuItem> items = salaList.map((item) {
+    List<DropdownMenuItem> items = salaList.map((item) {
       return DropdownMenuItem<Sala>(
-        child: Center( child:Text('Sala '+item.nombre,textAlign:TextAlign.center ,)),
+        child: Center(
+            child: Text(
+          'Sala ' + item.nombre,
+          textAlign: TextAlign.center,
+        )),
         value: item,
       );
     }).toList();
@@ -54,7 +63,11 @@ class _HomePageState extends State<HomePage> {
     if (items.isEmpty) {
       items = [
         DropdownMenuItem(
-          child: Center( child:Text('Sala: $_selectedSala.nombre',textAlign:TextAlign.center ,)),
+          child: Center(
+              child: Text(
+            'Sala: $_selectedSala.nombre',
+            textAlign: TextAlign.center,
+          )),
           value: _selectedSala,
         )
       ];
@@ -69,21 +82,29 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: Row(children: [
-              
-              Text('Seleccionar:'),
-              SizedBox(
-                height: 20.0,
-              ),Expanded(
-          child: DropdownButton(
-          items: items,
-          onChanged: (newVal) => setState(() => _selectedSala = newVal),
-          value: _selectedSala,
-        ),
-      )
-
-              ],),
+                child: Text(cine.nombre),
+              ),
+                            Container(
+                child: Text(cine.direccion),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  children: [
+                    Text('Seleccionar:'),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Expanded(
+                      child: DropdownButton(
+                        items: items,
+                        onChanged: (newVal) =>
+                            setState(() => _selectedSala = newVal),
+                        value: _selectedSala,
+                      ),
+                    )
+                  ],
+                ),
               ),
               Text('Email: ${blocLogin.email}'),
               Divider(),
@@ -109,11 +130,24 @@ class _HomePageState extends State<HomePage> {
 
   _cargarListaSalas() async {
     var homeBloc = HomeBloc();
-  salaList = await homeBloc.getSalas();
+    salaList = await homeBloc.getSalas();
     setState(() {
       _selectedSala = salaList[0];
     });
+
+/*
+      return FutureBuilder(
+      future: await homeBloc.getSalas(),
+      builder: (BuildContext context, AsyncSnapshot<List<Cine>> snapshot) {
+        if (snapshot.hasData) {
+          return CardSwiper(movies: snapshot.data);
+        } else {
+          return Container(
+              height: 400.0, child: Center(child: CircularProgressIndicator()));
+        }
+      },
+    );
+
+    */
   }
-
-
 }

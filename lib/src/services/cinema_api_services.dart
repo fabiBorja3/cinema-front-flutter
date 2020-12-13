@@ -113,6 +113,29 @@ class CinemaApiService {
     */
   }
 
+
+
+    Future<List<Cine>> getCines() async {
+    List<Cine> cineList = new List();
+    await FirebaseFirestore.instance
+        .collection('Cine')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((data) {
+        if (data != null) {
+          Cine cine = new Cine();
+          cine.id = data.id;
+          cine.nombre = data.get('nombre').toString();
+          cine.direccion = data.get('direccion').toString();
+          cine.salas = data.get('salas').toString();
+          cineList.add(cine);
+        }
+      });
+    });
+
+    return cineList;
+  }
+
   Future<List<Movie>> getEnCines() async {
     List<Movie> movieList = new List();
     await FirebaseFirestore.instance

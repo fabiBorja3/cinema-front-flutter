@@ -36,7 +36,8 @@ class LoginBloc with Validators {
 
     if (apiResponse.body == 'true') {
       dispose();
-      Navigator.pushReplacementNamed(context, 'home');
+      //Navigator.pushReplacementNamed(context, 'home');
+      Navigator.pushReplacementNamed(context, 'cine');
     } else {
       AlertDialogCustom.showAlert(context, 'Autorizacion Invalida');
     }
