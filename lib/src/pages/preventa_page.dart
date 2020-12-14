@@ -1,5 +1,6 @@
 import 'package:cinema/src/blocs/preventa_bloc.dart';
 import 'package:cinema/src/models/movie_model.dart';
+import 'package:cinema/src/widgets/menu_widget.dart';
 import 'package:flutter/material.dart';
 
 class PreventaPage extends StatefulWidget {
@@ -34,16 +35,24 @@ class _PreventaPageState extends State<PreventaPage> {
     bloc = PreventaBloc();
     valorTotal = int.parse(movie.valor) * int.parse(cantidad);
 
-    return Container(
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Peliculas en cartelera'),
+          backgroundColor: Colors.deepPurple,
+        ),
+        body: Container(
       child: Column(
-        children: [_movie(movie),
+        children: [
+        _movie(movie),
         _user(user),
         _horario(horario),
-        _total(cantidad),
+        _cantidad(cantidad),
+        _total(valorTotal),
         _pagar(user, movie.titulo, cantidad, valorTotal.toString()),
         ],
       ),
-    );
+    ),
+        drawer: menuWidget());
   }
 
   Widget _movie(Movie movie) {
@@ -67,16 +76,33 @@ class _PreventaPageState extends State<PreventaPage> {
     );
   }
 
-  Widget _total(String total) {
+    Widget _cantidad(String cantidad) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Text(total),
+      child: Text(cantidad),
+    );
+  }
+
+  Widget _total(var total) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Text(total.toString()),
     );
   }
 
  Widget _pagar(String user, String pelicula, String cantidad, String valor) {
-    RaisedButton(onPressed: () {
-      bloc.registrarVenta(user, pelicula, cantidad, valor);
+     return RaisedButton(
+            child: Container(
+              child: Text('Comprar Tickets'),
+              padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+            elevation: 0.0,
+            color: Colors.deepPurple,
+            textColor: Colors.white,
+       onPressed: () {
+      bloc.registrarVenta(context,user, pelicula, cantidad, valor);
     });
   }
 }

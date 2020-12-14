@@ -1,3 +1,4 @@
+import 'package:cinema/src/blocs/pelicula_bloc.dart';
 import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/models/actor_model.dart';
 import 'package:cinema/src/pages/preventa_page.dart';
@@ -16,7 +17,7 @@ class _PeliculaPageState extends State<PeliculaPage> {
   final Movie movie;
   String _selectedHorario;
   String cantidad;
-
+  PeliculaBloc bloc = PeliculaBloc();
   _PeliculaPageState(this.movie);
 
   @override
@@ -59,7 +60,7 @@ class _PeliculaPageState extends State<PeliculaPage> {
             _descripcion(movie.descripcion),
             _nroPersonas(),
             _horarios(movie.horarios),
-             _valor(),
+            _valor(),
             _crearActoresPageView(),
             _crearBoton(),
           ]),
@@ -125,13 +126,20 @@ class _PeliculaPageState extends State<PeliculaPage> {
       ];
     }
 
-    return Expanded(
-      child: DropdownButton(
-        items: items,
-        onChanged: (newVal) => setState(() => _selectedHorario = newVal),
-        value: _selectedHorario,
-      ),
-    );
+    return StreamBuilder(
+        stream: bloc.horarioStream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return Expanded(
+            child: DropdownButton(
+              items: items,
+              onChanged: (newVal) {
+                setState(() => _selectedHorario = newVal);
+                bloc.changeHorario;
+              },
+              value: _selectedHorario,
+            ),
+          );
+        });
   }
 
   Widget _posterTitulo(BuildContext context) {
@@ -211,60 +219,64 @@ class _PeliculaPageState extends State<PeliculaPage> {
 
   Widget _crearBoton() {
     return StreamBuilder(
-        //stream: bloc.formValidStream,
+        stream: bloc.formValidStream,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-      return RaisedButton(
-        child: Container(
-          child: Text('Ingreso'),
-          padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-        ),
-        onPressed: () {
-          _venderTicket(movie,_selectedHorario,cantidad);
-        },
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-        elevation: 0.0,
-        color: Colors.deepPurple,
-        textColor: Colors.white,
-        // onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
-      );
-    });
+          return RaisedButton(
+            child: Container(
+              child: Text('Ingreso'),
+              padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+            ),
+            onPressed: () {
+              if (_selectedHorario != null && cantidad != null) {
+                _venderTicket(movie, _selectedHorario, cantidad);
+              }
+            },
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+            elevation: 0.0,
+            color: Colors.deepPurple,
+            textColor: Colors.white,
+          );
+        });
   }
 
- Widget _nroPersonas() {
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: TextField(
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            icon: Icon(
-              Icons.alternate_email,
-              color: Colors.deepPurple,
-            ),
-            labelText: 'Nro tickets',
-          ),
-          onChanged: (value) {
-            cantidad = value;
-          },
-        ));
+  Widget _nroPersonas() {
+    return StreamBuilder(
+        stream: bloc.cantidadStream,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  icon: Icon(
+                    Icons.alternate_email,
+                    color: Colors.deepPurple,
+                  ),
+                  labelText: 'Numero de tickets',
+                ),
+                onChanged: (value) {
+                  cantidad = value;
+                },
+              ));
+        });
   }
 
   Widget _valor() {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: Text(movie.valor),
-        );
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Text(movie.valor),
+    );
   }
 
-  _venderTicket(Movie movie,String horario, String cantidad) async {
-    var session = FlutterSession();
-     var usuario = await FlutterSession().get('user') as String;;
-              Navigator.push(
+  _venderTicket(Movie movie, String horario, String cantidad) async {
+    var usuario = await FlutterSession().get('user') as String;
+    Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            PreventaPage(movie: movie, user: usuario, horario: horario, cantidad: cantidad),
+        builder: (context) => PreventaPage(
+            movie: movie, user: usuario, horario: horario, cantidad: cantidad),
       ),
     );
-
   }
 }

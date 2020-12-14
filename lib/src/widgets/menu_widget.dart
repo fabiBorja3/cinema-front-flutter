@@ -38,9 +38,9 @@ class menuWidget  extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(Icons.movie),
-                title: Text("Registrar Teatro"),
+                title: Text('Mostrar Compras'),
                 onTap: () {
-                  Navigator.pushReplacementNamed(context, 'RegistroTeatro');
+                  Navigator.pushReplacementNamed(context, 'ordenes');
                 },
               ),
                ListTile(

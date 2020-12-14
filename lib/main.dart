@@ -2,6 +2,7 @@ import 'package:cinema/src/blocs/provider.dart';
 import 'package:cinema/src/pages/cine_page.dart';
 import 'package:cinema/src/pages/home_page.dart';
 import 'package:cinema/src/pages/login_page.dart';
+import 'package:cinema/src/pages/ordenes_page.dart';
 import 'package:cinema/src/pages/persona_page.dart';
 import 'package:cinema/src/pages/registro_page.dart';
 import 'package:cinema/src/pages/cinema_page.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
           'RegistroPersona': (BuildContext context) => PersonaPage(),
           'RegistrarCinema': (BuildContext context) => CinemaPage(),
           'cine': (BuildContext context) => CinePage(),
+          'ordenes': (BuildContext context) => OrdenesPage(),
         },
         theme: ThemeData(
           // This is the theme of your application.

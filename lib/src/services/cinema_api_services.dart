@@ -7,6 +7,7 @@ import 'package:cinema/src/models/gender_model.dart';
 import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/models/user_model.dart';
 import 'package:cinema/src/models/cinema_model.dart';
+import 'package:cinema/src/models/venta.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -132,6 +133,27 @@ class CinemaApiService {
     });
 
     return cineList;
+  }
+
+    Future<List<Venta>> getOrdenes() async {
+    var ventaList = <Venta>[];
+    await FirebaseFirestore.instance
+        .collection('Venta')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((data) {
+        if (data != null) {
+          var venta = Venta();
+          venta.pelicula = data.get('pelicula').toString();
+          venta.usuario = data.get('usuario').toString();
+          venta.cantidad = data.get('cantidad').toString();
+          venta.valor = data.get('valor').toString();
+          ventaList.add(venta);
+        }
+      });
+    });
+
+    return ventaList;
   }
 
   Future<List<Movie>> getEnCines() async {
