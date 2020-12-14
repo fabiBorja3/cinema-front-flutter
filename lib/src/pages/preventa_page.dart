@@ -37,7 +37,7 @@ class _PreventaPageState extends State<PreventaPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Peliculas en cartelera'),
+          title: Text('Preventa'),
           backgroundColor: Colors.deepPurple,
         ),
         body: Container(
@@ -58,35 +58,290 @@ class _PreventaPageState extends State<PreventaPage> {
   Widget _movie(Movie movie) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Text(movie.titulo),
+      child: 
+
+          Column(
+          children: <Widget>[
+            ListTile(              
+              title: Text(
+
+                 'Título',
+                style: TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                movie.toString(),
+                style: TextStyle(fontSize: 18),
+              ),
+              trailing: Icon(
+                Icons.movie,
+                color: Colors.blueGrey,
+              ),
+            ),
+            /* ListTile(
+              title: Text(
+                '(323) 555 6789',
+                style: TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                'Work',
+                style: TextStyle(fontSize: 18),
+              ),
+              trailing: Icon(
+                Icons.chat,
+                color: Colors.blueGrey,
+              ),
+            ), */
+            Divider(color: Colors.blueGrey)
+          ],
+        ),
+
+
+
+
+
+
+
+
+
+
+
+    /*   Row( children: [
+            Text('Título:'),
+            Text(movie.titulo),
+        ],)      */
+      
     );
   }
 
   Widget _user(String usuario) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Text(usuario),
+      
+      child: 
+
+            Column(
+          children: <Widget>[
+            ListTile(              
+              title: Text(
+
+               'Usuario', 
+                style: TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                usuario.toString(),
+                style: TextStyle(fontSize: 18),
+              ),
+              trailing: Icon(
+                Icons.supervised_user_circle,
+                color: Colors.blueGrey,
+              ),
+            ),
+            /* ListTile(
+              title: Text(
+                '(323) 555 6789',
+                style: TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                'Work',
+                style: TextStyle(fontSize: 18),
+              ),
+              trailing: Icon(
+                Icons.chat,
+                color: Colors.blueGrey,
+              ),
+            ), */
+            Divider(color: Colors.blueGrey)
+          ],
+        ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Row( children:  [
+            Text('Usuario:'),
+            Text(usuario),
+        ]
+        ,
+        
+        ) */
+
     );
   }
 
   Widget _horario(String horario) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Text(horario),
+      child: 
+
+
+          Column(
+          children: <Widget>[
+            ListTile(              
+              title: Text(
+                'Horario',                
+                style: TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                horario.toString(),
+                style: TextStyle(fontSize: 18),
+              ),
+              trailing: Icon(
+                Icons.watch_later,
+                color: Colors.blueGrey,
+              ),
+            ),
+            /* ListTile(
+              title: Text(
+                '(323) 555 6789',
+                style: TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                'Work',
+                style: TextStyle(fontSize: 18),
+              ),
+              trailing: Icon(
+                Icons.chat,
+                color: Colors.blueGrey,
+              ),
+            ), */
+            Divider(color: Colors.blueGrey)
+          ],
+        ),
+
+
+
+
+
+
+
+
+
+
+        /* Row( children: [
+            Text('Horario:'),
+            Text(horario),
+        ],)                   */
     );
   }
 
     Widget _cantidad(String cantidad) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Text(cantidad),
+      child: 
+
+            Column(
+          children: <Widget>[
+            ListTile(              
+              title: Text(
+                  'Cantidad',
+                
+                style: TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                cantidad.toString(),
+                style: TextStyle(fontSize: 18),
+              ),
+              trailing: Icon(
+                Icons.local_movies,
+                color: Colors.blueGrey,
+              ),
+            ),
+            /* ListTile(
+              title: Text(
+                '(323) 555 6789',
+                style: TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                'Work',
+                style: TextStyle(fontSize: 18),
+              ),
+              trailing: Icon(
+                Icons.chat,
+                color: Colors.blueGrey,
+              ),
+            ), */
+            Divider(color: Colors.blueGrey)
+          ],
+        ),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Row( children: [
+            Text('Cantidad:'),
+            Text(cantidad),
+        ],) */
+            
     );
   }
 
   Widget _total(var total) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Text(total.toString()),
+      child: 
+
+        Column(
+          children: <Widget>[
+            ListTile(              
+              title: Text(
+                'Total',
+                style: TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                total.toString(),
+                style: TextStyle(fontSize: 18),
+              ),
+              trailing: Icon(
+                Icons.payment,
+                color: Colors.blueGrey,
+              ),
+            ),
+            /* ListTile(
+              title: Text(
+                '(323) 555 6789',
+                style: TextStyle(fontSize: 20),
+              ),
+              subtitle: Text(
+                'Work',
+                style: TextStyle(fontSize: 18),
+              ),
+              trailing: Icon(
+                Icons.chat,
+                color: Colors.blueGrey,
+              ),
+            ), */
+            Divider(color: Colors.blueGrey)
+          ],
+        ),
+      
+
+
+/* 
+      Row( children: [
+            Text('Total::'),
+             Text(total.toString()),
+        ],)     */       
     );
   }
 

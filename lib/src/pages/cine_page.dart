@@ -31,7 +31,7 @@ class _CinePageState extends State<CinePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Registrar Cinemas'),
+          title: Text('Elige tu cine'),
           backgroundColor: Colors.deepPurple,
         ),
         body: ListView.separated(
