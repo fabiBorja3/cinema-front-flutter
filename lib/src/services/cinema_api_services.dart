@@ -113,9 +113,7 @@ class CinemaApiService {
     */
   }
 
-
-
-    Future<List<Cine>> getCines() async {
+  Future<List<Cine>> getCines() async {
     List<Cine> cineList = new List();
     await FirebaseFirestore.instance
         .collection('Cine')
@@ -153,6 +151,7 @@ class CinemaApiService {
           movie.genero = data.get('genero').toString();
           movie.idioma = data.get('idioma').toString();
           movie.sala = data.get('sala').toString();
+          movie.horarios = data.get('horarios');
           movie.actor = data.get('actor');
           movieList.add(movie);
         }

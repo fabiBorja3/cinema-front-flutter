@@ -29,20 +29,20 @@ class Movie {
   String idioma;
   String genero;
   String sala;
+  var horarios;
   Map actor;
 
-  Movie({
-    this.id,
-    this.titulo,
-    this.portada,
-    this.descripcion,
-    this.duracion,
-    this.idioma,
-    this.genero,
-    this.sala,    
-    this.actor
-  });
-
+  Movie(
+      {this.id,
+      this.titulo,
+      this.portada,
+      this.descripcion,
+      this.duracion,
+      this.idioma,
+      this.genero,
+      this.sala,
+      this.horarios,
+      this.actor});
 
 /*
   MovieModel.fromJsonMap(Map<String, dynamic> son) {
@@ -76,8 +76,5 @@ class Gender {
   });
 
   */
-
-  
-
 
 }

@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _cargarListaSalas();
+    //_cargarListaSalas();
     _selectedSala = Sala(
         id: '###',
         nombre: 'Seleccione',
@@ -48,31 +48,6 @@ class _HomePageState extends State<HomePage> {
     final blocLogin = Provider.of(context);
     final blocHome = Provider.ofHome(context);
 
-    List<DropdownMenuItem> items = salaList.map((item) {
-      return DropdownMenuItem<Sala>(
-        child: Center(
-            child: Text(
-          'Sala ' + item.nombre,
-          textAlign: TextAlign.center,
-        )),
-        value: item,
-      );
-    }).toList();
-
-    // if list is empty, create a dummy item
-    if (items.isEmpty) {
-      items = [
-        DropdownMenuItem(
-          child: Center(
-              child: Text(
-            'Sala: $_selectedSala.nombre',
-            textAlign: TextAlign.center,
-          )),
-          value: _selectedSala,
-        )
-      ];
-    }
-
     return Scaffold(
         appBar: AppBar(
           title: Text('Peliculas en cartelera'),
@@ -84,7 +59,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 child: Text(cine.nombre),
               ),
-                            Container(
+              Container(
                 child: Text(cine.direccion),
               ),
               Container(
@@ -95,14 +70,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    Expanded(
-                      child: DropdownButton(
-                        items: items,
-                        onChanged: (newVal) =>
-                            setState(() => _selectedSala = newVal),
-                        value: _selectedSala,
-                      ),
-                    )
+                    //_cargarListaSalas(),
                   ],
                 ),
               ),
@@ -128,26 +96,58 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _cargarListaSalas() async {
+  Widget _cargarListaSalas() {
     var homeBloc = HomeBloc();
+    /*
+
     salaList = await homeBloc.getSalas();
     setState(() {
       _selectedSala = salaList[0];
     });
+*/
 
-/*
-      return FutureBuilder(
-      future: await homeBloc.getSalas(),
-      builder: (BuildContext context, AsyncSnapshot<List<Cine>> snapshot) {
+    return FutureBuilder(
+      future: homeBloc.getSalas(),
+      builder: (BuildContext context, AsyncSnapshot<List<Sala>> snapshot) {
         if (snapshot.hasData) {
-          return CardSwiper(movies: snapshot.data);
+          salaList = snapshot.data;
+
+          List<DropdownMenuItem> items = salaList.map((item) {
+            return DropdownMenuItem<Sala>(
+              child: Center(
+                  child: Text(
+                'Sala ' + item.nombre,
+                textAlign: TextAlign.center,
+              )),
+              value: item,
+            );
+          }).toList();
+
+          // if list is empty, create a dummy item
+          if (items.isEmpty) {
+            items = [
+              DropdownMenuItem(
+                child: Center(
+                    child: Text(
+                  'Sala: $_selectedSala.nombre',
+                  textAlign: TextAlign.center,
+                )),
+                value: _selectedSala,
+              )
+            ];
+          }
+
+          
+          return DropdownButton(
+            items: items,
+            onChanged: (newVal) => setState(() => _selectedSala = newVal),
+            value: _selectedSala,
+          );
         } else {
           return Container(
-              height: 400.0, child: Center(child: CircularProgressIndicator()));
+              height: 5.0, child: Center(child: CircularProgressIndicator()));
         }
       },
     );
-
-    */
   }
 }
