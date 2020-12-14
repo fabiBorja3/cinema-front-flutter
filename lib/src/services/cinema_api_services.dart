@@ -153,6 +153,7 @@ class CinemaApiService {
           movie.sala = data.get('sala').toString();
           movie.horarios = data.get('horarios');
           movie.actor = data.get('actor');
+          movie.valor = data.get('valor').toString();
           movieList.add(movie);
         }
       });
@@ -207,5 +208,17 @@ class CinemaApiService {
       return 'invalido';
     }
     */
+  }
+
+
+    Future<ApiResponse> registrarVenta(String user, String pelicula, String cantidad, String valor) async {
+    var apiResponse = ApiResponse(statusResponse: 0);
+    var ref = await FirebaseFirestore.instance
+        .collection('Venta')
+        .add({'usuario': user, 'pelicula': pelicula, 'cantidad':cantidad, 'valor': valor});
+
+    apiResponse.body = ref.id;
+
+    return apiResponse;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:cinema/src/models/movie_model.dart';
 import 'package:cinema/src/models/actor_model.dart';
+import 'package:cinema/src/pages/preventa_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class PeliculaPage extends StatefulWidget {
   final Movie movie;
@@ -12,8 +14,8 @@ class PeliculaPage extends StatefulWidget {
 
 class _PeliculaPageState extends State<PeliculaPage> {
   final Movie movie;
-  List<String> horariosList;
   String _selectedHorario;
+  String cantidad;
 
   _PeliculaPageState(this.movie);
 
@@ -55,7 +57,9 @@ class _PeliculaPageState extends State<PeliculaPage> {
             _descripcion(movie.id),
             _descripcion(movie.titulo),
             _descripcion(movie.descripcion),
+            _nroPersonas(),
             _horarios(movie.horarios),
+             _valor(),
             _crearActoresPageView(),
             _crearBoton(),
           ]),
@@ -214,6 +218,9 @@ class _PeliculaPageState extends State<PeliculaPage> {
           child: Text('Ingreso'),
           padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
         ),
+        onPressed: () {
+          _venderTicket(movie,_selectedHorario,cantidad);
+        },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
         elevation: 0.0,
         color: Colors.deepPurple,
@@ -221,5 +228,43 @@ class _PeliculaPageState extends State<PeliculaPage> {
         // onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
       );
     });
+  }
+
+ Widget _nroPersonas() {
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: TextField(
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            icon: Icon(
+              Icons.alternate_email,
+              color: Colors.deepPurple,
+            ),
+            labelText: 'Nro tickets',
+          ),
+          onChanged: (value) {
+            cantidad = value;
+          },
+        ));
+  }
+
+  Widget _valor() {
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: Text(movie.valor),
+        );
+  }
+
+  _venderTicket(Movie movie,String horario, String cantidad) async {
+    var session = FlutterSession();
+     var usuario = await FlutterSession().get('user') as String;;
+              Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            PreventaPage(movie: movie, user: usuario, horario: horario, cantidad: cantidad),
+      ),
+    );
+
   }
 }

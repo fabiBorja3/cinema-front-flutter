@@ -31,6 +31,7 @@ class Movie {
   String sala;
   var horarios;
   Map actor;
+  String valor;
 
   Movie(
       {this.id,
@@ -42,7 +43,8 @@ class Movie {
       this.genero,
       this.sala,
       this.horarios,
-      this.actor});
+      this.actor,
+      this.valor});
 
 /*
   MovieModel.fromJsonMap(Map<String, dynamic> son) {
