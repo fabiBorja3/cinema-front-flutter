@@ -125,8 +125,8 @@ class LoginPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Ingreso',
-                  style: TextStyle(fontSize: 20.0),
+                  'TICKETMOVIE',
+                  style: TextStyle(fontSize: 30.0),
                 ),
                 SizedBox(
                   height: 60.0,

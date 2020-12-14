@@ -16,22 +16,15 @@ class menuWidget  extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.verified_user),
-                title: Text("Crear administradores"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'registro');
-                },
-              ),
-              ListTile(
                 leading: Icon(Icons.home),
-                title: Text("Home"),
+                title: Text('Home'),
                 onTap: () {
-                  Navigator.pushReplacementNamed(context, 'home');
+                  Navigator.pushReplacementNamed(context, 'cine');
                 },
               ),
               ListTile(
                 leading: Icon(Icons.account_circle),
-                title: Text("Registrar usuarios"),
+                title: Text('Registrar usuarios'),
                 onTap: () {
                   Navigator.pushReplacementNamed(context, 'RegistroPersona');
                 },
@@ -41,27 +34,6 @@ class menuWidget  extends StatelessWidget {
                 title: Text('Mostrar Compras'),
                 onTap: () {
                   Navigator.pushReplacementNamed(context, 'ordenes');
-                },
-              ),
-               ListTile(
-                leading: Icon(Icons.airline_seat_recline_extra),
-                title: Text("Ocupacion"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'OcuparCine');
-                },
-              ),
-                ListTile(
-                leading: Icon(Icons.games),
-                title: Text("Registrar Genero"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'RegistroGenero');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.games),
-                title: Text("Registrar Cinema"),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, 'RegistrarCinema');
                 },
               ),
               

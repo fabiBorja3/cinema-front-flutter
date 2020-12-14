@@ -56,27 +56,17 @@ class _HomePageState extends State<HomePage> {
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                child: Text(cine.nombre),
-              ),
-              Container(
-                child: Text(cine.direccion),
-              ),
+              Divider(),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  children: [
-                    Text('Seleccionar:'),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    //_cargarListaSalas(),
-                  ],
-                ),
+                child: Row(children: [Text('Cine: ',style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold) ,),Text(cine.nombre),],),
               ),
-              Text('Email: ${blocLogin.email}'),
-              Divider(),
-              Text('Password: ${blocLogin.password}'),
+              Divider( height: 3, color: Colors.deepPurple),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(children: [Text('Ubicación: ',style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold) ,),Text(cine.direccion),],),
+              ),
+              Divider( height: 3, color: Colors.deepPurple),
               _swiperTarjetas(context, blocHome)
             ]),
         drawer: menuWidget());

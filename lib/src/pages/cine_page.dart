@@ -34,12 +34,13 @@ class _CinePageState extends State<CinePage> {
           title: Text('Registrar Cinemas'),
           backgroundColor: Colors.deepPurple,
         ),
-        body: ListView.builder(
+        body: ListView.separated(
             itemCount: cineList.length,
+            separatorBuilder: (BuildContext context, int index) => Divider( height: 3, color: Colors.deepPurple),
             itemBuilder: (BuildContext ctxt, int Index) {
               return ListTile(
                 onTap: () {
-                            Navigator.push(
+          Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
@@ -47,7 +48,7 @@ class _CinePageState extends State<CinePage> {
       ),
     );
                 },
-                leading: Icon(Icons.map),
+                leading: Icon(Icons.movie),
                 title: Text(cineList[Index].nombre),
               );
 

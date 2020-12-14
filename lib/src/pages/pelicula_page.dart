@@ -59,8 +59,10 @@ class _PeliculaPageState extends State<PeliculaPage> {
             _descripcion(movie.titulo),
             _descripcion(movie.descripcion),
             _nroPersonas(),
-            _horarios(movie.horarios),
+            Container(child: Row(children: [Text('Horarios: ',style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold) ,),_horarios(movie.horarios),],),
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),),
             _valor(),
+            Divider( height: 3, color: Colors.deepPurple),
             _crearActoresPageView(),
             _crearBoton(),
           ]),
@@ -72,7 +74,7 @@ class _PeliculaPageState extends State<PeliculaPage> {
   Widget _crearAppbar() {
     return SliverAppBar(
       elevation: 2.0,
-      backgroundColor: Colors.indigoAccent,
+      backgroundColor: Colors.deepPurple,
       expandedHeight: 200.0,
       floating: false,
       pinned: true,
@@ -105,8 +107,7 @@ class _PeliculaPageState extends State<PeliculaPage> {
     List<DropdownMenuItem> items = horariosList.map((item) {
       return DropdownMenuItem<String>(
         child: Center(
-            child: Text(
-          'Horario ' + item,
+            child: Text(item,
           textAlign: TextAlign.center,
         )),
         value: item,
@@ -223,7 +224,7 @@ class _PeliculaPageState extends State<PeliculaPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return RaisedButton(
             child: Container(
-              child: Text('Ingreso'),
+              child: Text('Comprar'),
               padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
             ),
             onPressed: () {
@@ -250,7 +251,7 @@ class _PeliculaPageState extends State<PeliculaPage> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   icon: Icon(
-                    Icons.alternate_email,
+                    Icons.airline_seat_recline_normal,
                     color: Colors.deepPurple,
                   ),
                   labelText: 'Numero de tickets',
@@ -264,8 +265,8 @@ class _PeliculaPageState extends State<PeliculaPage> {
 
   Widget _valor() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: Text(movie.valor),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+      child: Row(children: [Text('Valor de ticket: ',style: TextStyle(fontSize: 15.0,fontWeight: FontWeight.bold) ,),Text(movie.valor),],),
     );
   }
 

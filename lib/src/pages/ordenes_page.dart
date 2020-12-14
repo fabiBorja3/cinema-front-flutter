@@ -35,7 +35,8 @@ class _OrdenesPageState extends State<OrdenesPage> {
           title: Text('Listado de compras'),
           backgroundColor: Colors.deepPurple,
         ),
-        body: ListView.builder(
+        body: ListView.separated(
+          separatorBuilder: (BuildContext context, int index) => Divider( height: 3, color: Colors.deepPurple),
             itemCount: ventaList.length,
             itemBuilder: (BuildContext ctxt, int Index) {
               return ListTile(
@@ -48,7 +49,7 @@ class _OrdenesPageState extends State<OrdenesPage> {
       ),
     );
                 },
-                leading: Icon(Icons.map),
+                leading: Icon(Icons.account_balance_wallet),
                 title: Text(ventaList[Index].pelicula),
               );
 
